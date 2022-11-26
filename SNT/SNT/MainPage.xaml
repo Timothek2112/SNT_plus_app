@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+    <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:SNT"
+             xmlns:controls="clr-namespace:SNT"
+             x:Class="SNT.MainPage"
+                 Shell.NavBarIsVisible="True"
+                 Shell.BackgroundColor="#5d8bf6"
+                 NavigationPage.HasNavigationBar="False">
+    
+    <RelativeLayout>
+        <Frame x:Name="loginEntry"  BackgroundColor="#E9E9E9" CornerRadius="30" HeightRequest="45" WidthRequest="250" HasShadow="True" Padding="3"  RelativeLayout.XConstraint="{ConstraintExpression
+            Type=RelativeToParent,
+            Property=Width,
+            Factor=0.5,
+            Constant=-125
+            }"
+            RelativeLayout.YConstraint="{ConstraintExpression
+            Type=RelativeToParent,
+            Property=Height,
+            Factor=0.4,
+            Constant=-22.5}">
+            <controls:CustomEntry FontAttributes="Bold" Placeholder="Логин"  WidthRequest="200" />
+        </Frame>
+        <Frame x:Name="passwordEntry" Background="#E9E9E9" CornerRadius="30" WidthRequest="250" HasShadow="True" Padding="3"  RelativeLayout.XConstraint="{ConstraintExpression
+            Type=RelativeToView,
+            ElementName=loginEntry,
+            Property=X,
+            Factor=1
+            }"
+            RelativeLayout.YConstraint="{ConstraintExpression
+            Type=RelativeToView,
+            ElementName=loginEntry,
+            Property=Y,
+            Factor=1.25}">
+            <controls:CustomEntry FontAttributes="Bold" Placeholder="Пароль" IsPassword="True" WidthRequest="200" />
+        </Frame>
+        <Button CornerRadius="30" BackgroundColor="#5d8bf6" FontSize="20" FontAttributes="Bold" Text="Войти" TextColor="White" WidthRequest="200" Clicked="OnLoginClick" RelativeLayout.XConstraint="{ConstraintExpression
+            Type=RelativeToView,
+            ElementName=passwordEntry,
+            Property=X,
+            Factor=1.4
+            }"
+            RelativeLayout.YConstraint="{ConstraintExpression
+            Type=RelativeToView,
+            Property=Y,
+            ElementName=passwordEntry,
+            Factor=1.3}"/>
+    </RelativeLayout>
+
+</ContentPage>
