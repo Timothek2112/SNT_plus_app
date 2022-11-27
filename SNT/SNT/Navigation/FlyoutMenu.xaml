@@ -1,15 +1,257 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Shell xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:views="clr-namespace:SNT.Navigation"
-             xmlns:snt="clr-namespace:SNT"
-             x:Class="SNT.Navigation.FlyoutMenu">
-    <ShellContent Title="Главная">
-            <snt:Home Title="Главная"/>
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:snt="clr-namespace:SNT"
+            xmlns:local="clr-namespace:SNT.Navigation"
+            x:Class="SNT.Navigation.FlyoutMenu"
+            x:Name="leftMenu"
+            BindingContext=""
+            FlyoutBackgroundColor="{DynamicResource PageBackgroundColor}"
+            >
+
+    <MenuItem>
+        <Shell.MenuItemTemplate>
+            <DataTemplate>
+                <Frame HasShadow="True" BackgroundColor="{DynamicResource Primary}">
+                    <Grid ColumnDefinitions="0.8*,0.2*" Padding="5,5,5,5" BackgroundColor="{DynamicResource Primary}">
+                        <Button ImageSource="PlusIco.png" Text="Создать показание" Style="{StaticResource FlyoutButtonStyle}" ></Button>
+                        <Button Grid.Column="1" CornerRadius="30" Style="{StaticResource FlyoutButtonStyle}" ImageSource="PlusIco.png" Clicked="Back_Button_Clicked"/>
+                </Grid>
+                </Frame>
+            </DataTemplate>
+        </Shell.MenuItemTemplate>
+    </MenuItem>
+   
+        <MenuItem x:Name="EmptyItem14">
+        <Shell.MenuItemTemplate>
+            <DataTemplate>
+                <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,2,0,20" Style="{StaticResource FlyoutGridStyle}">
+
+                </Grid>
+            </DataTemplate>
+        </Shell.MenuItemTemplate>
+    </MenuItem>
+    
+    <FlyoutItem IsVisible="False">
+        <ShellContent Shell.FlyoutBehavior="Disabled" Title="Вход" Route="LoginPage">
+            <snt:MainPage/>
         </ShellContent>
-    <ShellContent Title="Не главная">
-        <snt:MainPage Title="Не главная"/>
+    </FlyoutItem>
+    
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+    <ShellContent Route="Home">
+        <snt:Home/>
+            <Shell.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{DynamicResource PageBackgroundColor}">
+                        <Label Grid.Column="1" Text="Главная" Style="{StaticResource FlyoutLabelStyle}"/>
+                    </Grid>
+                </DataTemplate>
+            </Shell.ItemTemplate>
+        </ShellContent>
+    </FlyoutItem>
+
+    <MenuItem x:Name="menuitem">
+        <Shell.MenuItemTemplate>
+            <DataTemplate>
+                <Grid RowDefinitions="*,*" Style="{StaticResource FlyoutGridStyle}">
+                    <Label Grid.Row="1" Text="Данные об участке" Style="{StaticResource FlyoutLabelStyle}"/>
+                </Grid>
+            </DataTemplate>
+        </Shell.MenuItemTemplate>
+    </MenuItem>
+    
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+    <ShellContent Route="Debts">
+        <snt:Home />
+            <Shell.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{DynamicResource PageBackgroundColor}">
+                        <Label Grid.Column="1" Text="Свод долгов и переплат" Style="{StaticResource FlyoutLabelStyle}"/>
+                    </Grid>
+                </DataTemplate>
+            </Shell.ItemTemplate>
     </ShellContent>
+    </FlyoutItem>
+    
+    <MenuItem x:Name="EmptyItem">
+        <Shell.MenuItemTemplate>
+            <DataTemplate>
+                <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,2,0,2" Style="{StaticResource FlyoutGridStyle}">
+
+                </Grid>
+            </DataTemplate>
+        </Shell.MenuItemTemplate>
+    </MenuItem>
+    
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent  Route="Electricity">
+            <snt:Home/>
+            <Shell.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{DynamicResource PageBackgroundColor}">
+                        <Label Grid.Column="1" Text="Электроэнергия" Style="{StaticResource FlyoutLabelStyle}"/>
+                    </Grid>
+                </DataTemplate>
+            </Shell.ItemTemplate>
+        </ShellContent>
+    </FlyoutItem>
+    
+    <MenuItem x:Name="EmptyItem1">
+        <Shell.MenuItemTemplate>
+            <DataTemplate>
+                <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,2,0,2" Style="{StaticResource FlyoutGridStyle}">
+
+                </Grid>
+            </DataTemplate>
+        </Shell.MenuItemTemplate>
+    </MenuItem>
+    
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Route="Water">
+            <snt:Home/>
+            <Shell.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{DynamicResource PageBackgroundColor}">
+                        <Label Grid.Column="1" Text="Вода" Style="{StaticResource FlyoutLabelStyle}"/>
+                    </Grid>
+                </DataTemplate>
+            </Shell.ItemTemplate>
+        </ShellContent>
+    </FlyoutItem>
+    
+    <MenuItem x:Name="EmptyItem2">
+        <Shell.MenuItemTemplate>
+            <DataTemplate>
+                <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,2,0,2" Style="{StaticResource FlyoutGridStyle}">
+
+                </Grid>
+            </DataTemplate>
+        </Shell.MenuItemTemplate>
+    </MenuItem>
+
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Route="Penality">
+            <snt:Home/>
+            <Shell.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{DynamicResource PageBackgroundColor}">
+                        <Label Grid.Column="1" Text="Пеня" Style="{StaticResource FlyoutLabelStyle}"/>
+                    </Grid>
+                </DataTemplate>
+            </Shell.ItemTemplate>
+        </ShellContent>
+    </FlyoutItem>
+
+    <MenuItem x:Name="EmptyItem3">
+        <Shell.MenuItemTemplate>
+            <DataTemplate>
+                <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,2,0,2" Style="{StaticResource FlyoutGridStyle}">
+
+                </Grid>
+            </DataTemplate>
+        </Shell.MenuItemTemplate>
+    </MenuItem>
+
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Route="Membership">
+            <snt:Home/>
+            <Shell.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{DynamicResource PageBackgroundColor}">
+                        <Label Grid.Column="1" Text="Членские" Style="{StaticResource FlyoutLabelStyle}"/>
+                    </Grid>
+                </DataTemplate>
+            </Shell.ItemTemplate>
+        </ShellContent>
+    </FlyoutItem>
+    
+    <MenuItem x:Name="EmptyItem4">
+        <Shell.MenuItemTemplate>
+            <DataTemplate>
+                <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,2,0,2" Style="{StaticResource FlyoutGridStyle}">
+
+                </Grid>
+            </DataTemplate>
+        </Shell.MenuItemTemplate>
+    </MenuItem>
+
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Route="Pokazania">
+            <snt:Home/>
+            <Shell.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{DynamicResource PageBackgroundColor}">
+                        <Label Grid.Column="1" Text="Показания" Style="{StaticResource FlyoutLabelStyle}"/>
+                    </Grid>
+                </DataTemplate>
+            </Shell.ItemTemplate>
+        </ShellContent>
+    </FlyoutItem>
+    
+    <MenuItem x:Name="Life">
+        <Shell.MenuItemTemplate>
+            <DataTemplate>
+                <Grid RowDefinitions="*,*">
+                    <Label Grid.Row="1" Text="Жизнь товарищества" FontAttributes="Bold" Style="{StaticResource FlyoutLabelStyle}"/>
+                </Grid>
+            </DataTemplate>
+        </Shell.MenuItemTemplate>
+    </MenuItem>
+
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Главная" Route="Home">
+            <snt:Home />
+            <Shell.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{DynamicResource PageBackgroundColor}">
+                        <Label Grid.Column="1" Text="Новости" Style="{StaticResource FlyoutLabelStyle}"/>
+                    </Grid>
+                </DataTemplate>
+            </Shell.ItemTemplate>
+        </ShellContent>
+    </FlyoutItem>
+
+    <MenuItem x:Name="EmptyItem23">
+        <Shell.MenuItemTemplate>
+            <DataTemplate>
+                <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,2,0,2" Style="{StaticResource FlyoutGridStyle}">
+
+                </Grid>
+            </DataTemplate>
+        </Shell.MenuItemTemplate>
+    </MenuItem>
+    
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Route="Home">
+            <snt:Home/>
+            <Shell.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{DynamicResource PageBackgroundColor}">
+                        <Label Grid.Column="1" Text="Обращение" Style="{StaticResource FlyoutLabelStyle}"/>
+                    </Grid>
+                </DataTemplate>
+            </Shell.ItemTemplate>
+        </ShellContent>
+    </FlyoutItem>
 
 
+
+    <MenuItem x:Name="themePickerItem">
+        <Shell.MenuItemTemplate>
+            <DataTemplate>
+                <Grid RowDefinitions="*,*" x:Name="themeGrid">
+                    <Label Grid.Row ="0" Style="{StaticResource FlyoutLabelStyle}" Text="Тема: "/>
+                    <Picker Grid.Row="1"  x:Name="themePicker" SelectedIndexChanged="themePicker_SelectedIndexChanged" SelectedIndex="0" Style="{StaticResource PickerStyle}">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Светлая</x:String>
+                                <x:String>Тёмная</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </Grid>
+            </DataTemplate>
+        </Shell.MenuItemTemplate>
+    </MenuItem>
 </Shell>

@@ -14,12 +14,14 @@ namespace SNT
         public MainPage()
         {
             InitializeComponent();
+            BindingContext = this;
+            
         }
 
         public async void OnLoginClick(object sender, EventArgs e)
         {
-            
-            await Navigation.PushAsync(new FlyoutMenu());
+            //добавить логин
+            await Shell.Current.GoToAsync("//Home");
             
         }
     }

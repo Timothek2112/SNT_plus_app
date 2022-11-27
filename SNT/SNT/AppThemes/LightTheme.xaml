@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SNT.Themes.LightTheme">
+    <Color x:Key="Primary">#6720AD</Color>
+    <Color x:Key="PageBackgroundColor">White</Color>
+    <Color x:Key="PageSecondaryBackgroundColor">WhiteSmoke</Color>
+    <Color x:Key="PrimaryText">Black</Color>
+    <Color x:Key="SecondaryText">White</Color>
+    <Color x:Key="PrimaryButton">#943BED</Color>
+    <Color x:Key="SecondaryButton">#8BAEFF</Color>
+    <Color x:Key="BorderColor">WhiteSmoke</Color>
+    
+    
+</ResourceDictionary>
