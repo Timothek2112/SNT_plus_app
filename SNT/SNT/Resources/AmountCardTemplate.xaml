@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SNT.Resources.AmountCardTemplate"
+             x:Name="Bind"
+             BindingContext="{x:Reference Bind}"
+             >
+    <Frame CornerRadius="30" HasShadow="True">
+        <Grid RowDefinitions="40,20" ColumnDefinitions="*,*,*">
+            <Label Text="{Binding MainText1}" Style="{StaticResource FlyoutLabelStyle}" BackgroundColor="Red"/>
+        </Grid>
+    </Frame>
+</ContentView>

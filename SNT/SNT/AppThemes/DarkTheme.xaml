@@ -6,7 +6,7 @@
     <Color x:Key="PageBackgroundColor">#2E2E2E</Color>
     <Color x:Key="PageSecondaryBackgroundColor">#404040</Color>
     <Color x:Key="PrimaryText">#BABABA</Color>
-    <Color x:Key="SecondaryText">Gray</Color>
+    <Color x:Key="SecondaryText">#BABABA</Color>
     <Color x:Key="PrimaryButton">#848A98</Color>
     <Color x:Key="SecondaryButton">#606060</Color>
     <Color x:Key="BorderColor">#2D2D2D</Color>

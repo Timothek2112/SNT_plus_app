@@ -16655,7 +16655,7 @@ namespace SNT.Droid
 			public const int notify_panel_notification_icon_bg = 2131165323;
 			
 			// aapt resource value: 0x7F07008C
-			public const int PlusIco = 2131165324;
+			public const int plusIco = 2131165324;
 			
 			// aapt resource value: 0x7F07008D
 			public const int preference_list_divider_material = 2131165325;

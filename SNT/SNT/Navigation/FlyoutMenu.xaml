@@ -3,19 +3,21 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:snt="clr-namespace:SNT"
             xmlns:local="clr-namespace:SNT.Navigation"
+            xmlns:image="clr-namespace:SNT"
             x:Class="SNT.Navigation.FlyoutMenu"
             x:Name="leftMenu"
             BindingContext=""
             FlyoutBackgroundColor="{DynamicResource PageBackgroundColor}"
+            
             >
 
     <MenuItem>
         <Shell.MenuItemTemplate>
             <DataTemplate>
-                <Frame HasShadow="True" BackgroundColor="{DynamicResource Primary}">
-                    <Grid ColumnDefinitions="0.8*,0.2*" Padding="5,5,5,5" BackgroundColor="{DynamicResource Primary}">
-                        <Button ImageSource="PlusIco.png" Text="Создать показание" Style="{StaticResource FlyoutButtonStyle}" ></Button>
-                        <Button Grid.Column="1" CornerRadius="30" Style="{StaticResource FlyoutButtonStyle}" ImageSource="PlusIco.png" Clicked="Back_Button_Clicked"/>
+                <Frame HasShadow="True" BackgroundColor="{DynamicResource Primary}" Margin="0,5,0,5">
+                    <Grid ColumnDefinitions="0.8*,0.2*" BackgroundColor="{DynamicResource Primary}">
+                        <Button Text="Создать показание" Style="{StaticResource FlyoutButtonStyle}"/>
+                        <Button Grid.Column="1" CornerRadius="30" Style="{StaticResource FlyoutButtonStyle}" BackgroundColor="Transparent" Clicked="Back_Button_Clicked"/>
                 </Grid>
                 </Frame>
             </DataTemplate>
@@ -39,7 +41,7 @@
     </FlyoutItem>
     
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
-    <ShellContent Route="Home">
+    <ShellContent Route="Home"> 
         <snt:Home/>
             <Shell.ItemTemplate>
                 <DataTemplate>
@@ -86,7 +88,7 @@
     
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent  Route="Electricity">
-            <snt:Home/>
+            <local:Electricity/>
             <Shell.ItemTemplate>
                 <DataTemplate>
                     <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{DynamicResource PageBackgroundColor}">
@@ -199,7 +201,7 @@
         </Shell.MenuItemTemplate>
     </MenuItem>
 
-    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems" >
         <ShellContent Title="Главная" Route="Home">
             <snt:Home />
             <Shell.ItemTemplate>
