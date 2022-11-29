@@ -5,9 +5,12 @@
              x:Name="Bind"
              BindingContext="{x:Reference Bind}"
              >
-    <Frame CornerRadius="30" HasShadow="True">
-        <Grid RowDefinitions="40,20" ColumnDefinitions="*,*,*">
-            <Label Text="{Binding MainText1}" Style="{StaticResource FlyoutLabelStyle}" BackgroundColor="Red"/>
+    <Frame CornerRadius="30" HasShadow="True" BackgroundColor="{DynamicResource PageSecondaryBackgroundColor}">
+        <Grid RowDefinitions="40,40,40,40" ColumnDefinitions="*,*,*">
+            <Label x:Name="period_lbl" Grid.Row="0" Text="{Binding period}" Style="{StaticResource ListLabelStyle}"/>
+            <Label x:Name="debt_lbl" Grid.Row="1" Text="{Binding debt}" TextColor="Red" Style="{StaticResource ListLabelStyle}"/>
+            <Label x:Name="payment_lbl" Grid.Row="2" Text="{Binding payment}" TextColor="Green" Style="{StaticResource ListLabelStyle}"/>
+            <Label x:Name="amount_lbl" Grid.Row="3" Text="{Binding amount}" TextColor="{Binding amountColor}" Style="{StaticResource ListLabelStyle}"/>
         </Grid>
     </Frame>
 </ContentView>

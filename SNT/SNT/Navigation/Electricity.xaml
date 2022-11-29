@@ -1,11 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SNT.Navigation.Electricity">
-    <StackLayout>
+             x:Class="SNT.Navigation.Electricity"
+             Shell.BackgroundColor="{DynamicResource Primary}">
+
+    <Shell.TitleView>
+        <Grid ColumnDefinitions="0.1*,0.8*,0.1*" RowDefinitions="0.15*,0.85*,0*">
+            <Label Grid.Column="1" Grid.Row="1" Style="{StaticResource TitleLabel}" Text="Электроэнергия" HorizontalTextAlignment="Center"></Label>
+        </Grid>
+    </Shell.TitleView>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Secondary" Text="Настройки"/>
+    </ContentPage.ToolbarItems>
+    
+    <StackLayout BackgroundColor="{DynamicResource PageBackgroundColor}">
         <Button Text="Создать показание" Style="{StaticResource FlyoutButtonStyle}" TextTransform="None"/>
-        <StackLayout x:Name="CardList">
+            <ScrollView>
+                <StackLayout x:Name="CardList">
             
-        </StackLayout>
+                </StackLayout>
+            </ScrollView>
     </StackLayout>
 </ContentPage>
