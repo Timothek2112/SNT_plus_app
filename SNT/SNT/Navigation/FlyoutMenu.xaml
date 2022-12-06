@@ -1,14 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+
 <Shell xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:snt="clr-namespace:SNT"
+            xmlns:nav="clr-namespace:SNT.Navigation"
             xmlns:local="clr-namespace:SNT.Navigation"
             xmlns:image="clr-namespace:SNT"
             x:Class="SNT.Navigation.FlyoutMenu"
             x:Name="leftMenu"
             BindingContext=""
             FlyoutBackgroundColor="{DynamicResource PageBackgroundColor}"
-            
             >
 
     <MenuItem>
@@ -36,7 +37,7 @@
     
     <FlyoutItem IsVisible="False">
         <ShellContent Shell.FlyoutBehavior="Disabled" Title="Вход" Route="LoginPage">
-            <snt:MainPage/>
+            <snt:LoginPage/>
         </ShellContent>
     </FlyoutItem>
     
@@ -180,7 +181,7 @@
 
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent Route="Pokazania">
-            <snt:Home/>
+            <nav:Pokazania/>
             <Shell.ItemTemplate>
                 <DataTemplate>
                     <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{DynamicResource PageBackgroundColor}">
@@ -224,7 +225,9 @@
         </Shell.MenuItemTemplate>
     </MenuItem>
     
-    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+    
+    
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems" >
         <ShellContent Route="Home">
             <snt:Home/>
             <Shell.ItemTemplate>
@@ -237,8 +240,8 @@
         </ShellContent>
     </FlyoutItem>
 
-
-
+    
+    
     <MenuItem x:Name="themePickerItem">
         <Shell.MenuItemTemplate>
             <DataTemplate>

@@ -5,12 +5,18 @@
              x:Name="Bind"
              BindingContext="{x:Reference Bind}"
              >
-    <Frame CornerRadius="30" HasShadow="True" BackgroundColor="{DynamicResource PageSecondaryBackgroundColor}">
-        <Grid RowDefinitions="40,40,40,40" ColumnDefinitions="*,*,*">
-            <Label x:Name="period_lbl" Grid.Row="0" Text="{Binding period}" Style="{StaticResource ListLabelStyle}"/>
-            <Label x:Name="debt_lbl" Grid.Row="1" Text="{Binding debt}" TextColor="Red" Style="{StaticResource ListLabelStyle}"/>
-            <Label x:Name="payment_lbl" Grid.Row="2" Text="{Binding payment}" TextColor="Green" Style="{StaticResource ListLabelStyle}"/>
-            <Label x:Name="amount_lbl" Grid.Row="3" Text="{Binding amount}" TextColor="{Binding amountColor}" Style="{StaticResource ListLabelStyle}"/>
+    <Frame CornerRadius="30" HasShadow="True" BackgroundColor="{DynamicResource PageSecondaryBackgroundColor}" Padding="0">
+        <Grid RowDefinitions="40,2,40,40,9,40" ColumnDefinitions="2*,2*,1*" HeightRequest="200">
+            <Label Grid.Column="1" Grid.Row="0" Text="Период:" Style="{StaticResource ListLabelStyle}" VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="35,0,0,0"/>
+            <Label x:Name="period_lbl" Grid.Column="2" Grid.Row="0" HorizontalOptions="StartAndExpand" VerticalOptions="Center" Text="{Binding period}" Style="{StaticResource ListLabelStyle}"/>
+            <Frame Grid.ColumnSpan="3" Grid.Row="1" BackgroundColor="{DynamicResource BorderColor}"/>
+            <Label Grid.Column="0" Grid.Row="2" Text="Начисление:" HorizontalOptions="EndAndExpand" Style="{StaticResource ListLabelStyle}"/>
+            <Label Grid.Column="0" Grid.Row="3" Text="Оплата: " HorizontalOptions="EndAndExpand" Style="{StaticResource ListLabelStyle}"/>
+            <Label Grid.Column="0" Grid.Row="5" Text="Итого: " HorizontalOptions="EndAndExpand" Style="{StaticResource ListLabelStyle}"/>
+            
+            <Label x:Name="debt_lbl" Grid.Column="1" Grid.Row="2" Text="{Binding debt}" TextColor="Red" Style="{StaticResource ListLabelStyle}"/>
+            <Label x:Name="payment_lbl" Grid.Column="1" Grid.Row="3" Text="{Binding payment}" TextColor="Green" Style="{StaticResource ListLabelStyle}"/>
+            <Label x:Name="amount_lbl" Grid.Column="1" Grid.Row="5" Text="{Binding amount}" TextColor="{Binding amountColor}" Style="{StaticResource ListLabelStyle}"/>
         </Grid>
     </Frame>
 </ContentView>

@@ -9,13 +9,12 @@ namespace SNT
         public App()
         {
             InitializeComponent();
-            MainPage = new MainPage();
+            MainPage = new LoginPage();
         }
 
         protected override void OnStart()
         {
-            MainPage = new FlyoutMenu();
-            Shell.Current.GoToAsync("//LoginPage");
+            
         }
 
         protected override void OnSleep()

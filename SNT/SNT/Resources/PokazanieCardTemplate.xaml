@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SNT.Resources.PokazanieCardTemplate"
+             x:Name="Bind"
+             BindingContext="{x:Reference Bind}"
+             >
+    <Frame CornerRadius="30" HasShadow="True" BackgroundColor="{DynamicResource PageSecondaryBackgroundColor}" Padding="0">
+        <Grid RowDefinitions="40,2,40,40, 10" ColumnDefinitions="2*,2*,1*" >
+            <Label Grid.Column="1" Grid.Row="0" Text="Период:" Style="{StaticResource ListLabelStyle}" VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="35,0,0,0"/>
+            <Label x:Name="period_lbl" Grid.Column="2" Grid.Row="0" HorizontalOptions="StartAndExpand" VerticalOptions="Center" Text="{Binding period}" Style="{StaticResource ListLabelStyle}"/>
+            <Frame Grid.ColumnSpan="3" Grid.Row="1" BackgroundColor="{DynamicResource BorderColor}"/>
+            <Label Grid.Column="0" Grid.Row="2" Text="Показание:" HorizontalOptions="EndAndExpand" Style="{StaticResource ListLabelStyle}"/>
+            <Label Grid.Column="0" Grid.Row="3" Text="За период: " HorizontalOptions="EndAndExpand" Style="{StaticResource ListLabelStyle}"/>
+            
+            <Label x:Name="pokazanie_lbl" Grid.Column="1" Grid.Row="2" Text="{Binding pokazanie}" Style="{StaticResource ListLabelStyle}"/>
+            <Label x:Name="forPeriod_lbl" Grid.Column="1" Grid.Row="3" Text="{Binding forPeriod}" Style="{StaticResource ListLabelStyle}"/>
+        </Grid>
+    </Frame>
+</ContentView>

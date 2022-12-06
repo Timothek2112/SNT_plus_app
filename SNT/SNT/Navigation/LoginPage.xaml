@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:SNT"
              xmlns:controls="clr-namespace:SNT"
-             x:Class="SNT.MainPage"
+             x:Class="SNT.LoginPage"
                  Shell.NavBarIsVisible="False"
                  Shell.BackgroundColor="{DynamicResource NavigationBarColor}">
 
     <RelativeLayout>
-        <Frame x:Name="loginEntry"  BackgroundColor="#E9E9E9" CornerRadius="30" HeightRequest="45" WidthRequest="250" HasShadow="True" Padding="3"  RelativeLayout.XConstraint="{ConstraintExpression
+        <Frame x:Name="loginFrame"  BackgroundColor="#E9E9E9" CornerRadius="30" HeightRequest="45" WidthRequest="250" HasShadow="True" Padding="3"  RelativeLayout.XConstraint="{ConstraintExpression
             Type=RelativeToParent,
             Property=Width,
             Factor=0.5,
@@ -19,31 +19,33 @@
             Property=Height,
             Factor=0.4,
             Constant=-22.5}">
-            <controls:CustomEntry FontAttributes="Bold" Placeholder="Логин"  WidthRequest="200" />
+            <controls:CustomEntry x:Name="loginEntry" FontAttributes="Bold" Placeholder="Логин"  WidthRequest="200" />
         </Frame>
-        <Frame x:Name="passwordEntry" Background="#E9E9E9" CornerRadius="30" WidthRequest="250" HasShadow="True" Padding="3"  RelativeLayout.XConstraint="{ConstraintExpression
+        
+        <Frame x:Name="passwordFrame" Background="#E9E9E9" CornerRadius="30" WidthRequest="250" HasShadow="True" Padding="3"  RelativeLayout.XConstraint="{ConstraintExpression
             Type=RelativeToView,
-            ElementName=loginEntry,
+            ElementName=loginFrame,
             Property=X,
             Factor=1
             }"
             RelativeLayout.YConstraint="{ConstraintExpression
             Type=RelativeToView,
-            ElementName=loginEntry,
+            ElementName=loginFrame,
             Property=Y,
             Factor=1.5}">
-            <controls:CustomEntry FontAttributes="Bold" Placeholder="Пароль" IsPassword="True" WidthRequest="200" />
+            <controls:CustomEntry x:Name="passwordEntry" FontAttributes="Bold" Placeholder="Пароль" IsPassword="True" WidthRequest="200" />
         </Frame>
+        
         <Button CornerRadius="30" BackgroundColor="#5d8bf6" FontSize="20" FontAttributes="Bold" Text="Войти" TextColor="White" WidthRequest="200" Clicked="OnLoginClick" RelativeLayout.XConstraint="{ConstraintExpression
             Type=RelativeToView,
-            ElementName=passwordEntry,
+            ElementName=passwordFrame,
             Property=X,
-            Factor=1.8
+            Factor=1.5
             }"
             RelativeLayout.YConstraint="{ConstraintExpression
             Type=RelativeToView,
             Property=Y,
-            ElementName=passwordEntry,
+            ElementName=passwordFrame,
             Factor=1.5}"/>
     </RelativeLayout>
 

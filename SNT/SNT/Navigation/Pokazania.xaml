@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SNT.Navigation.Electricity"
-             Shell.BackgroundColor="{DynamicResource Primary}">
+             x:Class="SNT.Navigation.Pokazania">
 
     <Shell.TitleView>
         <Grid ColumnDefinitions="0.13*,0.6*,0.1*" RowDefinitions="0.15*,0.85*,0*">
@@ -13,14 +12,17 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Order="Secondary" Text="Настройки"/>
     </ContentPage.ToolbarItems>
-    
-    <StackLayout BackgroundColor="{DynamicResource PageBackgroundColor}">
-        <Button Text="Создать показание" Style="{StaticResource FlyoutButtonStyle}" TextTransform="None" Margin="10,10,10,10"/>
-        <ScrollView>
-            <StackLayout x:Name="CardList">
+
+    <ContentPage.Content>
+        
+        <StackLayout BackgroundColor="{DynamicResource PageBackgroundColor}">
             
-            </StackLayout>
-        </ScrollView>
-    </StackLayout>
+            <ScrollView>
+                <StackLayout x:Name="CardList">
+
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+
+    </ContentPage.Content>
 </ContentPage>
-    
