@@ -2,14 +2,24 @@
 <ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SNT.Themes.LightTheme">
-    <Color x:Key="Primary">#6720AD</Color>
-    <Color x:Key="PageBackgroundColor">White</Color>
-    <Color x:Key="PageSecondaryBackgroundColor">WhiteSmoke</Color>
-    <Color x:Key="PrimaryText">Black</Color>
-    <Color x:Key="SecondaryText">White</Color>
-    <Color x:Key="PrimaryButton">#943BED</Color>
-    <Color x:Key="SecondaryButton">#8BAEFF</Color>
-    <Color x:Key="BorderColor">WhiteSmoke</Color>
+    <Color x:Key="NavBarTitle">#FFFF</Color>
     
-    
+    <Color x:Key="PrimaryLight">#6720AD</Color>
+    <Color x:Key="PageBackgroundColorLight">WhiteSmoke</Color>
+    <Color x:Key="PageSecondaryBackgroundColorLight">White</Color>
+    <Color x:Key="PrimaryTextLight">Black</Color>
+    <Color x:Key="SecondaryTextLight">White</Color>
+    <Color x:Key="PrimaryButtonLight">#943BED</Color>
+    <Color x:Key="SecondaryButtonLight">#8BAEFF</Color>
+    <Color x:Key="BorderColorLight">Gray</Color>
+
+    <Color x:Key="PrimaryDark">#6720AD</Color>
+    <Color x:Key="PageBackgroundColorDark">#2E2E2E</Color>
+    <Color x:Key="PageSecondaryBackgroundColorDark">#404040</Color>
+    <Color x:Key="PrimaryTextDark">#BABABA</Color>
+    <Color x:Key="SecondaryTextDark">#BABABA</Color>
+    <Color x:Key="PrimaryButtonDark">#848A98</Color>
+    <Color x:Key="SecondaryButtonDark">#606060</Color>
+    <Color x:Key="BorderColorDark">Black</Color>
+
 </ResourceDictionary>

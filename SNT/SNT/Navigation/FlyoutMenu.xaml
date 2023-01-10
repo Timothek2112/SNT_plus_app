@@ -9,15 +9,15 @@
             x:Class="SNT.Navigation.FlyoutMenu"
             x:Name="leftMenu"
             BindingContext=""
-            FlyoutBackgroundColor="{DynamicResource PageBackgroundColor}"
+            FlyoutBackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark}, Light={StaticResource PageBackgroundColorLight}}"
             >
 
     <MenuItem>
         <Shell.MenuItemTemplate>
             <DataTemplate>
                 <Frame HasShadow="True" BackgroundColor="{DynamicResource Primary}" Margin="0,5,0,5">
-                    <Grid ColumnDefinitions="0.8*,0.2*" BackgroundColor="{DynamicResource Primary}">
-                        <Button Text="Создать показание" Style="{StaticResource FlyoutButtonStyle}"/>
+                    <Grid ColumnDefinitions="0.8*,0.2*" BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource PrimaryLight}}">
+                        <Button Text="Создать показание" Style="{StaticResource FlyoutButtonStyle}" Clicked="Create_Pokazanie_Clicked"/>
                         <Button Grid.Column="1" CornerRadius="30" Style="{StaticResource FlyoutButtonStyle}" BackgroundColor="Transparent" Clicked="Back_Button_Clicked"/>
                 </Grid>
                 </Frame>
@@ -34,19 +34,16 @@
             </DataTemplate>
         </Shell.MenuItemTemplate>
     </MenuItem>
+
+
     
-    <FlyoutItem IsVisible="False">
-        <ShellContent Shell.FlyoutBehavior="Disabled" Title="Вход" Route="LoginPage">
-            <snt:LoginPage/>
-        </ShellContent>
-    </FlyoutItem>
     
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
     <ShellContent Route="Home"> 
         <snt:Home/>
             <Shell.ItemTemplate>
                 <DataTemplate>
-                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{DynamicResource PageBackgroundColor}">
+                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark}, Light={StaticResource PageBackgroundColorLight}}">
                         <Label Grid.Column="1" Text="Главная" Style="{StaticResource FlyoutLabelStyle}"/>
                     </Grid>
                 </DataTemplate>
@@ -63,20 +60,20 @@
             </DataTemplate>
         </Shell.MenuItemTemplate>
     </MenuItem>
-    
+
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
-    <ShellContent Route="Debts">
-        <snt:Home />
+        <ShellContent Route="Debts">
+            <snt:Home />
             <Shell.ItemTemplate>
                 <DataTemplate>
-                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{DynamicResource PageBackgroundColor}">
+                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark }, Light={StaticResource PageBackgroundColorLight}}">
                         <Label Grid.Column="1" Text="Свод долгов и переплат" Style="{StaticResource FlyoutLabelStyle}"/>
                     </Grid>
                 </DataTemplate>
             </Shell.ItemTemplate>
-    </ShellContent>
+        </ShellContent>
     </FlyoutItem>
-    
+
     <MenuItem x:Name="EmptyItem">
         <Shell.MenuItemTemplate>
             <DataTemplate>
@@ -89,10 +86,9 @@
     
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent  Route="Electricity">
-            <local:Electricity/>
             <Shell.ItemTemplate>
                 <DataTemplate>
-                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{DynamicResource PageBackgroundColor}">
+                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark }, Light={StaticResource PageBackgroundColorLight}}">
                         <Label Grid.Column="1" Text="Электроэнергия" Style="{StaticResource FlyoutLabelStyle}"/>
                     </Grid>
                 </DataTemplate>
@@ -115,7 +111,7 @@
             <snt:Home/>
             <Shell.ItemTemplate>
                 <DataTemplate>
-                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{DynamicResource PageBackgroundColor}">
+                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark }, Light={StaticResource PageBackgroundColorLight}}">
                         <Label Grid.Column="1" Text="Вода" Style="{StaticResource FlyoutLabelStyle}"/>
                     </Grid>
                 </DataTemplate>
@@ -138,7 +134,7 @@
             <snt:Home/>
             <Shell.ItemTemplate>
                 <DataTemplate>
-                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{DynamicResource PageBackgroundColor}">
+                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark }, Light={StaticResource PageBackgroundColorLight}}">
                         <Label Grid.Column="1" Text="Пеня" Style="{StaticResource FlyoutLabelStyle}"/>
                     </Grid>
                 </DataTemplate>
@@ -161,7 +157,7 @@
             <snt:Home/>
             <Shell.ItemTemplate>
                 <DataTemplate>
-                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{DynamicResource PageBackgroundColor}">
+                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark }, Light={StaticResource PageBackgroundColorLight}}">
                         <Label Grid.Column="1" Text="Членские" Style="{StaticResource FlyoutLabelStyle}"/>
                     </Grid>
                 </DataTemplate>
@@ -184,7 +180,7 @@
             <nav:Pokazania/>
             <Shell.ItemTemplate>
                 <DataTemplate>
-                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{DynamicResource PageBackgroundColor}">
+                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark }, Light={StaticResource PageBackgroundColorLight}}">
                         <Label Grid.Column="1" Text="Показания" Style="{StaticResource FlyoutLabelStyle}"/>
                     </Grid>
                 </DataTemplate>
@@ -207,7 +203,7 @@
             <snt:Home />
             <Shell.ItemTemplate>
                 <DataTemplate>
-                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{DynamicResource PageBackgroundColor}">
+                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark }, Light={StaticResource PageBackgroundColorLight}}">
                         <Label Grid.Column="1" Text="Новости" Style="{StaticResource FlyoutLabelStyle}"/>
                     </Grid>
                 </DataTemplate>
@@ -232,7 +228,7 @@
             <snt:Home/>
             <Shell.ItemTemplate>
                 <DataTemplate>
-                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{DynamicResource PageBackgroundColor}">
+                    <Grid ColumnDefinitions="0.2*,0.8*" Padding="0,20,0,20" BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark }, Light={StaticResource PageBackgroundColorLight}}">
                         <Label Grid.Column="1" Text="Обращение" Style="{StaticResource FlyoutLabelStyle}"/>
                     </Grid>
                 </DataTemplate>
@@ -240,8 +236,6 @@
         </ShellContent>
     </FlyoutItem>
 
-    
-    
     <MenuItem x:Name="themePickerItem">
         <Shell.MenuItemTemplate>
             <DataTemplate>

@@ -1,26 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:card="clr-namespace:SNT.Resources"
-             x:Class="SNT.Navigation.Electricity"
-             x:Name="main"
-             BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark}, Light={StaticResource PageBackgroundColorLight}}">
-
+             x:Class="SNT.Navigation.Penality"
+             x:Name="main">
     <NavigationPage.TitleView>
-        <Label x:Name ="TitleLabel" Style="{StaticResource TitleLabel}" TextColor="{StaticResource NavBarTitle}" Text="Электроэнергия" HorizontalOptions="CenterAndExpand"></Label>
+        <Label x:Name ="TitleLabel" Style="{StaticResource TitleLabel}" TextColor="{StaticResource NavBarTitle}" Text="Пеня" HorizontalOptions="CenterAndExpand"></Label>
     </NavigationPage.TitleView>
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Order="Secondary" Text="Настройки"/>
     </ContentPage.ToolbarItems>
-    
+
     <StackLayout BackgroundColor="{DynamicResource PageBackgroundColor}">
-        <Button x:Name="NewPokazanieButton" Clicked="NewPokazanieButton_Clicked" Text="Создать показание" Style="{StaticResource FlyoutButtonStyle}" TextTransform="None" Margin="10,10,10,10"/>
         <Grid Margin="0" RowDefinitions="40" ColumnDefinitions="*,*">
             <Picker Style="{StaticResource PickerStyle}" SelectedIndexChanged="PeriodPicker_SelectedIndexChanged" Margin="50,0,0,0" x:Name="PeriodPicker" HorizontalTextAlignment="Center" BindingContext="main"></Picker>
             <Picker Style="{StaticResource PickerStyle}" SelectedIndexChanged="UchastokPicker_SelectedIndexChanged" Margin="0,0,50,0" HorizontalTextAlignment="Center" Grid.Column = "1" x:Name="UchastokPicker" BindingContext="main"></Picker>
         </Grid>
-        
+
         <RefreshView x:Name="refreshView" BindingContext="{x:Reference main}" CommandParameter="{x:Reference main}" Command="{Binding Refresh}">
             <ScrollView Margin="0">
                 <StackLayout x:Name="StackList">
@@ -52,4 +48,3 @@
         </RefreshView>
     </StackLayout>
 </ContentPage>
-    

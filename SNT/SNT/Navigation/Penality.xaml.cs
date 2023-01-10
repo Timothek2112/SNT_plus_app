@@ -14,11 +14,19 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+
 namespace SNT.Navigation
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class Electricity : ContentPage
-	{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class Penality : ContentPage
+    {
+        public enum Which
+        {
+            Null,
+            membership,
+            penality,
+            target
+        }
 
         public class Refresh : ICommand
         {
@@ -31,40 +39,65 @@ namespace SNT.Navigation
 
             public void Execute(object parameter)
             {
-                Electricity current = (Electricity)parameter;
+                Penality current = (Penality)parameter;
                 current.ForceGetAndSetData();
-                
+
             }
 
         }
-        bool isWater = false;
+
+        Which selected = Which.Null;
         List<int> periods = new List<int>();
         List<int> uchastk = new List<int>();
         DataRepository dataRepository = new DataRepository();
-        
-        public Electricity (bool isWater)
-		{
-			InitializeComponent ();
-            this.isWater = isWater;
+
+        public Penality(Which state)
+        {
+            InitializeComponent();
+            selected = state;
+            switch (state)
+            {
+                case Which.penality:
+                    TitleLabel.Text = "Пеня";
+                    break;
+
+                case Which.target:
+                    TitleLabel.Text = "Целевые";
+                    break;
+                
+                case Which.membership:
+                    TitleLabel.Text = "Членские";
+                    break;
+            }
             refreshView.Command = new Refresh();
             refreshView.CommandParameter = this;
-			SetUpPeriodPicker();
+            SetUpPeriodPicker();
             SetUpUchastokPicker();
             CardList.SeparatorColor = Color.Transparent;
-            if (isWater) TitleLabel.Text = "Вода"; else TitleLabel.Text = "Электроэнергия";
         }
 
-        private async void SoftGetAndSetData(int year, int uchastok)
+        private async void GetAndSetData(int year, int uchastok, bool force_reload)
         {
+            if (force_reload)
+            {
+                Barrel.Current.EmptyAll();
+            }
+
             List<ElectricityCardModel> cards = null;
-            if (!isWater)
+
+            switch (selected)
             {
-                cards = await dataRepository.GetElectricityDebtCards(year, uchastok);
+                case Which.penality:
+                    cards = await dataRepository.GetPenalityDebtCards(year, uchastok);
+                    break;
+                case Which.membership:
+                    cards = await dataRepository.GetMembershipDebtCards(year, uchastok);
+                    break;
+                case Which.target:
+                    cards = await dataRepository.GetTargetDebtCards(year, uchastok);
+                    break;
             }
-            else
-            {
-                cards = await dataRepository.GetWaterDebtCards(year, uchastok);
-            }
+            
             Device.BeginInvokeOnMainThread(() => DisplayData(cards));
         }
 
@@ -73,9 +106,9 @@ namespace SNT.Navigation
             if (PeriodPicker.SelectedItem != null && UchastokPicker.SelectedItem != null)
             {
                 Barrel.Current.EmptyAll();
-                Device.BeginInvokeOnMainThread(() => SoftGetAndSetData((int)PeriodPicker.SelectedItem, (int)UchastokPicker.SelectedItem));   
+                Device.BeginInvokeOnMainThread(() => GetAndSetData((int)PeriodPicker.SelectedItem, (int)UchastokPicker.SelectedItem, true));
                 Debug.WriteLine("-----ПЕРЕЗАГРУЖАЮ-----");
-                
+
             }
         }
 
@@ -91,7 +124,7 @@ namespace SNT.Navigation
         {
             var userId = await SecureStorage.GetAsync("userId");
             List<UchastkiModel> uchastki = await dataRepository.GetUsersUchastki(int.Parse(userId));
-            foreach(UchastkiModel u in uchastki)
+            foreach (UchastkiModel u in uchastki)
             {
                 uchastk.Add(int.Parse(u.uchastok));
             }
@@ -99,11 +132,11 @@ namespace SNT.Navigation
             UchastokPicker.SelectedIndex = 0;
         }
 
-		private void SetUpPeriodPicker()
-		{
-			periods.Add((DateTime.Now.Year - 3 ) % 100);
-			periods.Add((DateTime.Now.Year - 2 ) % 100);
-            periods.Add((DateTime.Now.Year - 1 ) % 100);
+        private void SetUpPeriodPicker()
+        {
+            periods.Add((DateTime.Now.Year - 3) % 100);
+            periods.Add((DateTime.Now.Year - 2) % 100);
+            periods.Add((DateTime.Now.Year - 1) % 100);
             periods.Add(DateTime.Now.Year % 100);
             PeriodPicker.ItemsSource = periods;
             PeriodPicker.SelectedIndex = 3;
@@ -111,15 +144,15 @@ namespace SNT.Navigation
 
         private void NewPokazanieButton_Clicked(object sender, EventArgs e)
         {
-			Navigation.PushAsync(new CreatePokazanie(isWater: false));
+            Navigation.PushAsync(new CreatePokazanie(isWater: false));
         }
 
         private void UchastokPicker_SelectedIndexChanged(object sender, EventArgs e)
         {
             LoadingIndicator.IsRunning = true;
-            if(PeriodPicker.SelectedItem != null && UchastokPicker.SelectedItem != null)
+            if (PeriodPicker.SelectedItem != null && UchastokPicker.SelectedItem != null)
             {
-                SoftGetAndSetData((int)PeriodPicker.SelectedItem, (int)UchastokPicker.SelectedItem);
+                GetAndSetData((int)PeriodPicker.SelectedItem, (int)UchastokPicker.SelectedItem, false);
             }
         }
 
@@ -128,7 +161,7 @@ namespace SNT.Navigation
             LoadingIndicator.IsRunning = true;
             if (PeriodPicker.SelectedItem != null && UchastokPicker.SelectedItem != null)
             {
-                SoftGetAndSetData((int)PeriodPicker.SelectedItem, (int)UchastokPicker.SelectedItem);
+                GetAndSetData((int)PeriodPicker.SelectedItem, (int)UchastokPicker.SelectedItem, false);
             }
         }
     }

@@ -5,7 +5,7 @@
              xmlns:controls="clr-namespace:SNT"
              x:Class="SNT.LoginPage"
                  Shell.NavBarIsVisible="False"
-                 Shell.BackgroundColor="{DynamicResource NavigationBarColor}">
+                 Shell.BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark}, Light={StaticResource PageBackgroundColorLight}}">
 
     <RelativeLayout>
         <Frame x:Name="loginFrame"  BackgroundColor="#E9E9E9" CornerRadius="30" HeightRequest="45" WidthRequest="250" HasShadow="True" Padding="3"  RelativeLayout.XConstraint="{ConstraintExpression

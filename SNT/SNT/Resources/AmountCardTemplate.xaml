@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SNT.Resources.AmountCardTemplate"
              x:Name="Bind"
              BindingContext="{x:Reference Bind}"
              >
-    <Frame CornerRadius="30" HasShadow="True" BackgroundColor="{DynamicResource PageSecondaryBackgroundColor}" Padding="0">
+    <Frame HeightRequest="200" CornerRadius="30" HasShadow="True" BackgroundColor="{AppThemeBinding Light={StaticResource PageSecondaryBackgroundColorLight}, Dark={StaticResource PageSecondaryBackgroundColorDark}}" Padding="0">
         <Grid RowDefinitions="40,2,40,40,9,40" ColumnDefinitions="2*,2*,1*" HeightRequest="200">
             <Label Grid.Column="1" Grid.Row="0" Text="Период:" Style="{StaticResource ListLabelStyle}" VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="35,0,0,0"/>
             <Label x:Name="period_lbl" Grid.Column="2" Grid.Row="0" HorizontalOptions="StartAndExpand" VerticalOptions="Center" Text="{Binding period}" Style="{StaticResource ListLabelStyle}"/>
-            <Frame Grid.ColumnSpan="3" Grid.Row="1" BackgroundColor="{DynamicResource BorderColor}"/>
+            <Frame Grid.ColumnSpan="3" Grid.Row="1" BackgroundColor="{AppThemeBinding Light={StaticResource BorderColorLight}, Dark={StaticResource BorderColorDark}}"/>
             <Label Grid.Column="0" Grid.Row="2" Text="Начисление:" HorizontalOptions="EndAndExpand" Style="{StaticResource ListLabelStyle}"/>
             <Label Grid.Column="0" Grid.Row="3" Text="Оплата: " HorizontalOptions="EndAndExpand" Style="{StaticResource ListLabelStyle}"/>
             <Label Grid.Column="0" Grid.Row="5" Text="Итого: " HorizontalOptions="EndAndExpand" Style="{StaticResource ListLabelStyle}"/>
@@ -19,4 +19,4 @@
             <Label x:Name="amount_lbl" Grid.Column="1" Grid.Row="5" Text="{Binding amount}" TextColor="{Binding amountColor}" Style="{StaticResource ListLabelStyle}"/>
         </Grid>
     </Frame>
-</ContentView>
+</ViewCell>

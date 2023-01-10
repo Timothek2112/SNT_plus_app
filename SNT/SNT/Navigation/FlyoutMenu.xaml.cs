@@ -8,6 +8,7 @@ using SNT.Themes;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
+using Xamarin.Essentials;
 
 namespace SNT.Navigation
 {
@@ -22,11 +23,6 @@ namespace SNT.Navigation
             InitializeComponent();
             gc.setContext();
             BindingContext = gc;
-            Application.Current.RequestedThemeChanged += (s, a) =>
-            {
-                Application.Current.UserAppTheme = OSAppTheme.Light;
-                
-            };
         }
 
         private void Back_Button_Clicked(object sender, EventArgs e)
@@ -38,7 +34,7 @@ namespace SNT.Navigation
 
         private void themePicker_SelectedIndexChanged(object sender, EventArgs e)
         {
-            LightTheme light = new LightTheme();
+            /*LightTheme light = new LightTheme();
             DarkTheme dark = new DarkTheme();
             const int LIGHT_THEME = 0;
             const int DARK_THEME = 1;
@@ -60,7 +56,25 @@ namespace SNT.Navigation
                         mergedDictionaries.Add(dark);
                         break;
                 }
+            }*/
+            if (App.Current.UserAppTheme == OSAppTheme.Dark)
+            {
+                App.Current.UserAppTheme = OSAppTheme.Light;
+                Preferences.Set("DarkTheme", false);
             }
+            else
+            {
+                App.Current.UserAppTheme = OSAppTheme.Dark;
+                Preferences.Set("DarkTheme", true);
+            }
+            
+        }
+
+        private void Create_Pokazanie_Clicked(object sender, EventArgs e)
+        {
+            //Navigation.PushAsync(new CreatePokazanie());
+            //Shell.Current.FlyoutIsPresented = false;
+            //await Shell.Current.GoToAsync("//CreatePokazanie/CreatePokazanie");
         }
     }
 }

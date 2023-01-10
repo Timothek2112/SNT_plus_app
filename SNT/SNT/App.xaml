@@ -9,29 +9,38 @@
     <Application.Resources>
 
         <ResourceDictionary Source="AppThemes/LightTheme.xaml">
+
+            <Style TargetType="NavigationPage" x:Key="Background">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource PageBackgroundColorLight}, Dark={StaticResource PageBackgroundColorDark}}"/>
+                <Setter Property="BarBackground" Value="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"/>
+            </Style>
+            
+            <Style TargetType="Grid" x:Key="PrimaryColoredGrid">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"/>
+            </Style>
             
             <Style TargetType="Label" x:Key="FlyoutLabelStyle">
-                <Setter Property="TextColor" Value="{DynamicResource PrimaryText}"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource PrimaryTextDark}, Light={StaticResource PrimaryTextLight}}"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="FontSize" Value="17"/>
             </Style>
 
             <Style TargetType="Label" x:Key="ListLabelStyle">
-                <Setter Property="TextColor" Value="{DynamicResource PrimaryText}"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource PrimaryTextLight}, Dark={StaticResource PrimaryTextDark}}"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="FontSize" Value="20"/>
             </Style>
             
             <Style TargetType="Picker" x:Key="PickerStyle">
-                <Setter Property="TextColor" Value="{DynamicResource PrimaryText}"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource PrimaryTextLight}, Dark={StaticResource PrimaryTextDark}}"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
-                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="FontSize" Value="16"/>
             </Style>
 
             <Style TargetType="Button" x:Key="FlyoutButtonStyle">
-                <Setter Property="TextColor" Value="{DynamicResource SecondaryText}"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource PrimaryTextLight}, Dark={StaticResource PrimaryTextDark}}"/>
                 <Setter Property="FontSize" Value="15"/>
-                <Setter Property="BackgroundColor" Value="{DynamicResource PrimaryButton} "/>
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource PrimaryButtonLight}, Dark={StaticResource PrimaryButtonDark}}"/>
                 <Setter Property="CornerRadius" Value="30"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
@@ -40,22 +49,23 @@
             <Style TargetType="Label" x:Key="MediumLabelStyle">
                 <Setter Property="FontSize" Value="18"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
-                <Setter Property="TextColor" Value="{DynamicResource PrimaryText}"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource PrimaryTextDark}, Light={StaticResource PrimaryTextLight}}"/>
             </Style>
             
             <Style TargetType="Grid" x:Key="FlyoutGridStyle">
-                <Setter Property="BackgroundColor" Value="{DynamicResource PageBackgroundColor}"/>
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark}, Light={StaticResource PageSecondaryBackgroundColorLight}}"/>
             </Style>
 
-            <Style TargetType="Label" x:Key="TitleLabel">
-                <Setter Property="TextColor" Value="{DynamicResource SecondaryText}"/>
+            <Style TargetType="Label" x:Key="TitleLabel">   
+                <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource PrimaryTextDark}, Light={StaticResource PrimaryTextLight}}"/>
                 <Setter Property="FontSize" Value="20"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="VerticalOptions" Value="FillAndExpand"/>
             </Style>
-            
-            
+
+            <Color x:Key="SelectedColor">#6720AD</Color>
+            <Color x:Key="DisselectedColor">WhiteSmoke</Color>
         </ResourceDictionary>
 
     </Application.Resources>

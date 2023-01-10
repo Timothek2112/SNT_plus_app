@@ -6,66 +6,87 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using SNT.Navigation;
+using Xamarin.Essentials;
 using System.Text.Json;
 using System.Net.Http;
+using Xamarin.CommunityToolkit.Extensions;
 using System.Diagnostics;
 using SNT.Models;
-using Xamarin.Essentials;
+using SNT.Repositories;
+using System.Net;
 
 namespace SNT
 {
     public partial class LoginPage : ContentPage
     {
-        HttpClient client = new HttpClient();
+        LoginRepository loginRepository = new LoginRepository();
         public LoginPage()
         {
             InitializeComponent();
             BindingContext = this;
+            try
+            {
+                checkLogin();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("ОШИБКА ПРОВЕРКИ ЛОГИНА" + ex.Message);
+                this.DisplayToastAsync(ex.Message);
+            }
+        }
+
+        private async Task checkLogin()
+        {
+            string token = await SecureStorage.GetAsync("token");
+            string response = "false";
+            if (token != null)
+            {
+                Debug.WriteLine("Пытаюсь проверить логин....");
+                response = await loginRepository.checkForLogin(token);
+                if (response == "true")
+                {
+                    await Navigation.PushAsync(new Home());
+                }
+                else
+                {
+                    this.DisplayToastAsync("Вы не авторизованы, пожалуйста, войдите в аккаунт");
+                    Debug.WriteLine("Не удалось войти");
+                }
+            }
         }
 
         public async void OnLoginClick(object sender, EventArgs e)
         {
-            Application.Current.MainPage = new FlyoutMenu();
-            return; //Убрать
-            string login = loginEntry.Text;
-            string password = passwordEntry.Text;
-            Dictionary<string, string> loginData = new Dictionary<string, string>();
-            
-            loginData.Add("login", login);
-            loginData.Add("password", password);
-
-            string request = JsonSerializer.Serialize(loginData);
-
-            if(!isLoginDataValid(login, password))
+            HttpStatusCode code = HttpStatusCode.Unauthorized;
+            try
             {
-                NotifyLoginInsuccessful();
-                return;
+                code = await loginRepository.login(loginEntry.Text, passwordEntry.Text);
+                proceedCode(code);
             }
-
-            StringContent stringContent = new StringContent(request, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.PostAsync("http://10.0.2.2:7000/auth/login", stringContent);
-
-            if (!response.IsSuccessStatusCode)
+            catch (Exception ex) { this.DisplayToastAsync(ex.Message); }
+        }
+        
+        private async void proceedCode(HttpStatusCode code)
+        {
+            if (code == HttpStatusCode.OK)
             {
-                NotifyServerError();
-                return;
+                this.DisplayToastAsync("Вход выполнен успешно");
+                checkLogin();
+                await Navigation.PushAsync(new Home());
             }
-
-            string responseString = await response.Content.ReadAsStringAsync();
-            Debug.WriteLine(responseString);
-            LoginResponse responseDeserialized = JsonSerializer.Deserialize<LoginResponse>(responseString);
-            Debug.WriteLine(responseDeserialized.userid);
-            Debug.WriteLine(responseDeserialized.token);
+            else if (code == HttpStatusCode.Unauthorized)
+            {
+                this.DisplayToastAsync("Неверный логин или пароль");
+            }
+            else if (code == HttpStatusCode.InternalServerError)
+            {
+                this.DisplayToastAsync("Ошибка севера, попробуйте позже");
+            }
         }
 
-        private bool isLoginDataValid(string login, string password)
+        private void loginSuccess()
         {
-            return true; // to be added
-        }
-
-        private void NotifyLoginInsuccessful()
-        {
-            Debug.WriteLine("Логин не удался");
+            Navigation.PushAsync(new Home());
         }
 
         private void NotifyServerError()

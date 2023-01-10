@@ -13,7 +13,7 @@ using Xamarin.Forms.Xaml;
 namespace SNT.Resources
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AmountCardTemplate : ContentView
+	public partial class AmountCardTemplate : ViewCell
 	{
 		public string debt { get; set; }
 		public string getsetDebt 
@@ -62,6 +62,11 @@ namespace SNT.Resources
             set { amountColor = value; OnPropertyChanged(nameof(amountColor)); }
         }
         
+        public AmountCardTemplate()
+        {
+            InitializeComponent();
+        }
+
         public AmountCardTemplate(ElectricityCardModel data)
 		{
 			InitializeComponent();

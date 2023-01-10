@@ -23,9 +23,9 @@ namespace SNT.Navigation
 			{
 				Random rnd = new Random();
 				PokazanieCardModel data = new PokazanieCardModel ();
-				data.period = $"{i}:22";
-				data.pokazanie = rnd.NextDouble() * rnd.Next(0, 3000);
-				data.forPeriod = rnd.NextDouble() * rnd.Next(0, 3000);
+				data.period = $"{i}.22";
+				data.pokazanie = rnd.Next(0, 3000);
+				data.forPeriod = rnd.Next(0, 3000);
 				PokazanieCardTemplate card = new PokazanieCardTemplate(data);
 				CardList.Children.Add(card);
 			}

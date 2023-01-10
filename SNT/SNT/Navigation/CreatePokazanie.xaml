@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:custom="clr-namespace:SNT"
+             x:Class="SNT.CreatePokazanie"
+             x:Name="page"
+             BindingContext="{x:Reference page}"
+             >
+
+    <ScrollView>
+    <StackLayout>
+        <Frame CornerRadius="30" Padding="-1" BackgroundColor="{Binding elecFrame}" Margin="10">
+            <Button x:Name="electricityButton" Clicked="electricityButton_Clicked"  Style="{StaticResource FlyoutButtonStyle}" BackgroundColor="{Binding waterColor}" Margin="5,5,5,5" TextColor="{Binding electricityColor}" Text="Электроэнергия" Padding="0"/>
+        </Frame>
+        <Frame  BackgroundColor="{Binding waterFrame}" CornerRadius="30" Padding="-1" Margin="10">
+            <Button x:Name="waterButton" Clicked="waterButton_Clicked" Style="{StaticResource FlyoutButtonStyle}" BackgroundColor="{Binding electricityColor}" Margin="5,5,5,5" TextColor="{Binding waterColor}" Text="Вода" Padding="0"/>
+        </Frame>
+        <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*,*,*,*">
+            <Label x:Name="SelectedLabel" Text="Негры" Grid.ColumnSpan="2" HorizontalOptions="Center" Style="{StaticResource TitleLabel}"/>
+            <Label Text="Показание: " HorizontalOptions="Center" Grid.Row="1" VerticalTextAlignment="Center" HorizontalTextAlignment="End" Style="{StaticResource ListLabelStyle}"/>
+            <Frame Grid.Row="1" Grid.Column="1" HasShadow="True" CornerRadius="30" Padding="0" Margin="0,0,10,0">
+                <custom:CustomEntry x:Name="PokazanieEntry" Placeholder="Ввод" HorizontalTextAlignment="Center" Keyboard="Numeric"/>
+            </Frame>
+            <Label Text="Месяц: " HorizontalOptions="Center" Grid.Row="2" VerticalTextAlignment="Center" HorizontalTextAlignment="End" Style="{StaticResource ListLabelStyle}"/>
+            <Label Text="Год: " HorizontalOptions="Center" Grid.Row="3" VerticalTextAlignment="Center" HorizontalTextAlignment="End" Style="{StaticResource ListLabelStyle}"/>
+            <Label Text="Участок: " HorizontalOptions="Center" Grid.Row="4" VerticalTextAlignment="Center" HorizontalTextAlignment="End" Style="{StaticResource ListLabelStyle}"/>
+            <Picker x:Name="UchastokPicker" Margin="0,0,20,0" HorizontalTextAlignment="Center" Style="{StaticResource PickerStyle}" Grid.Row="4" Grid.Column="1">
+            </Picker>
+                
+            <Picker Margin="0,0,20,0" FontSize="20" Grid.Row="2" Grid.Column="1" HorizontalTextAlignment="Center" x:Name="monthPicker" SelectedIndex="0" Style="{StaticResource PickerStyle}">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Январь</x:String>
+                        <x:String>Февраль</x:String>
+                        <x:String>Март</x:String>
+                        <x:String>Апрель</x:String>
+                        <x:String>Май</x:String>
+                        <x:String>Июнь</x:String>
+                        <x:String>Июль</x:String>
+                        <x:String>Август</x:String>
+                        <x:String>Сентябрь</x:String>
+                        <x:String>Октябрь</x:String>
+                        <x:String>Ноябрь</x:String>
+                        <x:String>Декабрь</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+                <Picker x:Name="YearPicker" Margin="0,0,20,0" Grid.Row="3"  Style="{StaticResource PickerStyle}" Grid.Column="1" HorizontalTextAlignment="Center"/>
+                <Button Grid.ColumnSpan="2" Grid.RowSpan="2" Text="Создать показание" Clicked="Button_Clicked" FontSize="20" TextColor="White" Padding="0" Margin="10,30,10,20" Grid.Row="5" Style="{StaticResource FlyoutButtonStyle}"/>
+            </Grid>
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>
