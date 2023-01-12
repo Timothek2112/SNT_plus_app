@@ -23,7 +23,7 @@ namespace SNT.Droid
         public override void OnCreate()
         {
             base.OnCreate();
-            FirebaseApp.InitializeApp(this);
+
             if (Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O)
             {
                 FirebasePushNotificationManager.DefaultNotificationChannelId = "FirebasePushNotificationChannel";
