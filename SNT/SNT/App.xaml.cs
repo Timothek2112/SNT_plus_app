@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using SNT.Themes;
 using Xamarin.Essentials;
 using SNT.Models;
+using Plugin.FirebasePushNotification;
 
 namespace SNT
 {
@@ -19,6 +20,13 @@ namespace SNT
             {
                 BarBackgroundColor = (Color)Application.Current.Resources["PrimaryLight"]
             };
+
+            CrossFirebasePushNotification.Current.OnTokenRefresh += Current_OnTokenRefresh;
+        }
+
+        private void Current_OnTokenRefresh(object source, FirebasePushNotificationTokenEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine($"TOKEN: {e.Token}");
         }
 
         protected override void OnStart()

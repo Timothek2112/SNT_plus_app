@@ -30,6 +30,20 @@ namespace SNT.Repositories
             }
         }
 
+        public bool LongCacheStringData(string url, string data)
+        {
+            try
+            {
+                Barrel.Current.Add<string>(url, data, TimeSpan.FromDays(31));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
         public string GetStringFromCache(string url)
         {
             try

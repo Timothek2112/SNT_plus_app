@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "561193379332",
+    "project_id": "snt-plus",
+    "storage_bucket": "snt-plus.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:561193379332:android:f5a25fb06c047506e3b751",
+        "android_client_info": {
+          "package_name": "com.companyname.snt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "561193379332-ms70l9m07ejriq624mv6q861r058gro6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHTHVTXQ9IzUvCR5WiJKdCm3jLki230LI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "561193379332-ms70l9m07ejriq624mv6q861r058gro6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

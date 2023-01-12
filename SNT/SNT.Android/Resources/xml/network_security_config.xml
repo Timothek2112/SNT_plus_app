@@ -3,5 +3,7 @@
   <domain-config cleartextTrafficPermitted="true">
     <domain includeSubdomains="true">10.0.2.2</domain> <!-- Debug port -->
     <domain includeSubdomains="true">xamarin.com</domain>
+	  <domain includeSubdomains="true">95.181.226.224</domain>
+
   </domain-config>
 </network-security-config>

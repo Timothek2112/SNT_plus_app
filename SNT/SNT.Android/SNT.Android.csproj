@@ -37,6 +37,7 @@
     <EnableLLVM>false</EnableLLVM>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <BundleAssemblies>false</BundleAssemblies>
+    <MandroidI18n />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,6 +52,7 @@
     <EnableLLVM>false</EnableLLVM>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <BundleAssemblies>false</BundleAssemblies>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
@@ -62,6 +64,9 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Plugin.FirebasePushNotification">
+      <Version>3.4.35</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.CommunityToolkit">
       <Version>2.0.5</Version>
     </PackageReference>
@@ -69,12 +74,14 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View1.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="google-services.json" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />

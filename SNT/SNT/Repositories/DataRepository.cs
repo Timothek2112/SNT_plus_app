@@ -11,6 +11,7 @@ using System.ComponentModel;
 using SNT.Navigation;
 using Xamarin.Forms;
 using MonkeyCache.FileStore;
+using Xamarin.Essentials;
 
 namespace SNT.Repositories
 {
@@ -246,26 +247,35 @@ namespace SNT.Repositories
         public async Task<DebtCardModel> GetDebts(int uchastk)
         {
             string url = Addresses.getDebts;
-            string responseString;
+            string responseString = null;
             Dictionary<string, int> requestData = new Dictionary<string, int>
             {
                 { "uchastokId", uchastk }
             };
 
-            if (cache.ReturnStringIfExistAndActual(url, out responseString))
+            if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-                Debug.WriteLine("Загружены кэшированные данные по " + url);
+                if (cache.ReturnStringIfExistAndActual(url, out responseString))
+                {
+                    Debug.WriteLine("Загружены кэшированные данные по " + url);
+                }
+                else
+                {
+                    string serialized = System.Text.Json.JsonSerializer.Serialize(requestData);
+                    Debug.WriteLine(serialized);
+                    StringContent requestBody = new StringContent(serialized, Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage response = await client.PostAsync(url, requestBody);
+                    responseString = await response.Content.ReadAsStringAsync();
+                    cache.CacheStringData(url, responseString);
+                    cache.LongCacheStringData(url + "_LONG", responseString);
+                    Debug.WriteLine("Сохранены кэшированные данные по " + url);
+                }
             }
             else
             {
-                string serialized = System.Text.Json.JsonSerializer.Serialize(requestData);
-                Debug.WriteLine(serialized);
-                StringContent requestBody = new StringContent(serialized, Encoding.UTF8, "application/json");
-
-                HttpResponseMessage response = await client.PostAsync(url, requestBody);
-                responseString = await response.Content.ReadAsStringAsync();
-                cache.CacheStringData(url, responseString);
-                Debug.WriteLine("Загружены кэшированные данные по " + url);
+                cache.ReturnStringIfExistAndActual(url + "_LONG", out responseString);
+                Application.Current.Properties.Add("offline", true);
             }
 
             DebtCardModel cards = JsonConvert.DeserializeObject<DebtCardModel>(responseString);
