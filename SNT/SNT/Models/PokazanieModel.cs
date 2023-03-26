@@ -97,4 +97,10 @@ namespace SNT.Models
             this.year = year;
         }
     }
+
+    internal class PokazanieModel : PaymentPokazanieModel
+    {
+        public float rawWater = 0;
+        public float rawElectricity = 0;
+    }
 }

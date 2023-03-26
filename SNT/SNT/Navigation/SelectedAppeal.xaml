@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SNT.Navigation.SelectedAppeal"
+             x:Name="main"
+             BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark}, Light={StaticResource PageBackgroundColorLight}}">
+    <NavigationPage.TitleView>
+        <Label x:Name ="TitleLabel" Style="{StaticResource TitleLabel}" TextColor="{StaticResource NavBarTitle}" Text="Обращения" HorizontalOptions="StartAndExpand"></Label>
+    </NavigationPage.TitleView>
+    
+    <ContentPage.Content >
+        <ScrollView>
+        <StackLayout>
+            <Label Text="Тема:" FontSize="30" Style="{StaticResource ListLabelStyle}" VerticalOptions="Start" HorizontalOptions="Start" Margin="35,0,0,0"/>
+                <Label x:Name="themeLabel" FontAttributes="None" Style="{StaticResource ListLabelStyle}" VerticalOptions="Start" HorizontalOptions="Start" Margin="35,0,0,0"/>
+            <Label Text="Текст обращения:" FontSize="30" Style="{StaticResource ListLabelStyle}" VerticalOptions="Start" HorizontalOptions="Start" Margin="35,0,0,0"/>
+                <Label x:Name="mainTextLabel" FontAttributes="None" Style="{StaticResource ListLabelStyle}" VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="35,0,0,0"/>
+            <Label Text="Ответ" FontSize="30" Style="{StaticResource ListLabelStyle}" VerticalOptions="Start" HorizontalOptions="StartAndExpand" Margin="35,0,0,0"/>
+                <Label x:Name="answerTextLabel" FontAttributes="None"  Style="{StaticResource MediumLabelStyle}" Text="Ответа нет" Margin="35,0,0,0"/>
+        </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

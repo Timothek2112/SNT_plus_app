@@ -55,9 +55,16 @@ namespace SNT
         public CreatePokazanie(bool isWater)
 		{
 			InitializeComponent();
-            SetUpPeriodPicker();
-            SetUpUchastokPicker();
-            SetUpMonthPicker();
+            try
+            {
+                SetUpPeriodPicker();
+                SetUpUchastokPicker();
+                SetUpMonthPicker();
+            }
+            catch
+            {
+                this.DisplayToastAsync("Ошибка загрузки данных, проверьте интернет соединение");
+            }
 
             if (isWater) { SelectWater(); }
 			else { SelectElectricity(); }
@@ -133,30 +140,39 @@ namespace SNT
 
         internal async Task<bool> CreateElectricityPokazanie(int uchastok, int year, int month, float electricity)
         {
-            return await dataRepository.CreateElectricityPokazanie(uchastok, year, month, electricity);
+            string sntId = await SecureStorage.GetAsync("sntId");
+            return await dataRepository.CreateElectricityPokazanie(uchastok, year, month, electricity, int.Parse(sntId));
         }
 
         internal async Task<bool> CreateWaterPokazanie(int uchastok, int year, int month, float water)
         {
-            return await dataRepository.CreateWaterPokazanie(uchastok, year, month, water);
+            string sntId = await SecureStorage.GetAsync("sntId");
+            return await dataRepository.CreateWaterPokazanie(uchastok, year, month, water, int.Parse(sntId));
         }
 
         private void Button_Clicked(object sender, EventArgs e)
         {
-            if (float.TryParse(PokazanieEntry.Text, out float a))
+            try
             {
-                if (selected == Selected.electricity)
+                if (float.TryParse(PokazanieEntry.Text, out float a))
                 {
-                    CreateElectricityPokazanie((int)UchastokPicker.SelectedItem, (int)YearPicker.SelectedItem, monthPicker.SelectedIndex + 1, float.Parse(PokazanieEntry.Text));
+                    if (selected == Selected.electricity)
+                    {
+                        CreateElectricityPokazanie((int)UchastokPicker.SelectedItem, (int)YearPicker.SelectedItem, monthPicker.SelectedIndex + 1, float.Parse(PokazanieEntry.Text));
+                    }
+                    else
+                    {
+                        CreateWaterPokazanie((int)UchastokPicker.SelectedItem, (int)YearPicker.SelectedItem, monthPicker.SelectedIndex + 1, float.Parse(PokazanieEntry.Text));
+                    }
                 }
                 else
                 {
-                    CreateWaterPokazanie((int)UchastokPicker.SelectedItem, (int)YearPicker.SelectedItem, monthPicker.SelectedIndex + 1, float.Parse(PokazanieEntry.Text));
+                    this.DisplayToastAsync("Строка показания не может быть пустой");
                 }
             }
-            else
+            catch
             {
-                this.DisplayToastAsync("Строка показания не может быть пустой");
+                this.DisplayToastAsync("Ошибка загрузки данных, проверьте интернет соединение");
             }
         }
     }

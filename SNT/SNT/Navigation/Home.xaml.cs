@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -28,7 +29,14 @@ namespace SNT
 
             public bool CanExecute(object parameter)
             {
-                return true;
+                if (Connectivity.NetworkAccess == NetworkAccess.Internet)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
 
             public void Execute(object parameter)
@@ -43,13 +51,14 @@ namespace SNT
             InitializeComponent();
             RefreshView.CommandParameter = this;
             RefreshView.Command = new Refresh();
-            Setup();
+            //Setup();
         }
-        private async void Setup()
+
+        /*private async void Setup()
         {
             await SetUpUchastokPicker();
             new Thread(() => GetAndSetDebt((int)UchastokPicker.SelectedItem, false)).Start();
-        }
+        }*/
 
         private void Clicked(object sender, EventArgs e)
         {
@@ -64,6 +73,7 @@ namespace SNT
                 Preferences.Set("DarkTheme", true);
             }
         }
+
         protected override bool OnBackButtonPressed()
         {
             return true; //Ничего не делаем при нажатии кнопки назад
@@ -71,39 +81,70 @@ namespace SNT
 
         private async void WaterButton_Clicked(object sender, EventArgs e)
         {
-             await Navigation.PushAsync(new Electricity(true));
+            try
+            {
+                await Navigation.PushAsync(new Electricity(true));
+            }
+            catch { }
         }
 
         private async void ElectricityButton_Clicked(object sender, EventArgs e)
         {
-             await Navigation.PushAsync(new Electricity(false));
+            try
+            {
+                await Navigation.PushAsync(new Electricity(false));
+            }
+            catch { }
         }
 
         private async void PokazaniaButton_Clicked(object sender, EventArgs e)
         {
-             await Navigation.PushAsync(new Pokazania());
+            try
+            {
+                await Navigation.PushAsync(new Pokazania());
+            }
+            catch { }
         }
 
-        public async void GetAndSetDebt(int uchastok, bool force_reload)
+        public async void GetAndSetDebt(bool force_reload)
         {
-            if (force_reload)
+            List<DebtCardModel> debts = new List<DebtCardModel>();
+
+            try
             {
-                Barrel.Current.EmptyAll();
+                int sntId = int.Parse(await SecureStorage.GetAsync("sntId"));
+                int userId = int.Parse(await SecureStorage.GetAsync("userId"));
+                List<UchastkiModel> uchastki = await dataRepository.GetUsersUchastki(userId);
+                
+                foreach (var item in uchastki)
+                {
+                    debts.Add(await dataRepository.GetDebts(int.Parse(item.uchastok), sntId));
+                    
+                }
             }
-            DebtCardModel debt = await dataRepository.GetDebts(uchastok);
-            if (debt != null)
+            catch
             {
-                Device.BeginInvokeOnMainThread(() => DebtLabel.Text = $"Суммарные долги/переплаты:\nВода: {debt.water}\nЭ/Э: {debt.electricity}\nЧленские взносы: {debt.membership}\nПеня: {debt.penality}\nЦелевые сборы: {debt.target}");
+                Device.BeginInvokeOnMainThread(() => this.DisplayToastAsync("Ошибка загрузки данных, проверьте интернет соединение"));
             }
-            Device.BeginInvokeOnMainThread(() => RefreshView.IsRefreshing = false);
+            finally
+            {
+                Debug.WriteLine(debts);
+                Debts.ItemsSource = debts;
+                Device.BeginInvokeOnMainThread(() => RefreshView.IsRefreshing = false);
+            }
         }
 
         public async void ForceGetAndSetDebt()
         {
-            GetAndSetDebt((int)UchastokPicker.SelectedItem, true);
+            GetAndSetDebt(true);
         }
 
-        private async Task<bool> SetUpUchastokPicker()
+        private void SetDebtLabelText(DebtCardModel debtCard)
+        {
+
+        }
+
+        /*private async Task<bool> SetUpUchastokPicker()
         {
             var userId = await SecureStorage.GetAsync("userId");
             List<UchastkiModel> uchastki = await dataRepository.GetUsersUchastki(int.Parse(userId));
@@ -114,12 +155,12 @@ namespace SNT
             UchastokPicker.ItemsSource = uchastok;
             UchastokPicker.SelectedIndex = 0;
             return true;
-        }
+        }*/
 
-        private void UchastokPicker_SelectedIndexChanged(object sender, EventArgs e)
+        /*private void UchastokPicker_SelectedIndexChanged(object sender, EventArgs e)
         {
             GetAndSetDebt((int)UchastokPicker.SelectedItem, true);
-        }
+        }*/
 
         private async void Button_Clicked(object sender, EventArgs e)
         {
@@ -134,6 +175,16 @@ namespace SNT
         private async void Button_Clicked_1(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new Penality(Penality.Which.target));
+        }
+
+        private async void Button_Clicked_2(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new News());
+        }
+
+        private async void Button_Clicked_3(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new Appeals());
         }
     }
 }

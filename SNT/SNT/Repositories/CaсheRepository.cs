@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Xamarin.Essentials;
+using SNT.Repositories;
 
 namespace SNT.Repositories
 {
@@ -34,7 +36,7 @@ namespace SNT.Repositories
         {
             try
             {
-                Barrel.Current.Add<string>(url, data, TimeSpan.FromDays(31));
+                Barrel.Current.Add<string>(url, data, TimeSpan.FromHours(1));
                 return true;
             }
             catch (Exception ex)
@@ -66,10 +68,24 @@ namespace SNT.Repositories
             try
             {
                 return Barrel.Current.IsExpired(url);
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
                 Debug.WriteLine($"Ошибка проверки актуальности данных кэша. Ошибка: {ex.Message}");
                 return true;
+            }
+        }
+
+        public async void SaveLoginInfoInSecureStorage(int userId, string token, int sntId, List<UchastkiModel> uchastki)
+        {
+            DataRepository dataRepository = new DataRepository();
+            await SecureStorage.SetAsync("userId", userId.ToString());
+            await SecureStorage.SetAsync("token", token);
+            await SecureStorage.SetAsync("sntId", sntId.ToString());
+            foreach (UchastkiModel uchastok in uchastki)
+            {
+                int id = await dataRepository.GetUchastokId(int.Parse(uchastok.uchastok), sntId);
+                await SecureStorage.SetAsync(uchastok.uchastok.ToString(), id.ToString());
             }
         }
 
@@ -88,6 +104,8 @@ namespace SNT.Repositories
 
         public bool ReturnStringIfExistAndActual(string url, out string data)
         {
+            bool isexist = isExist(url);
+            bool isexpired = isExpired(url);
             if(isExist(url) && !isExpired(url))
             {
                 data = Barrel.Current.Get<string>(url);

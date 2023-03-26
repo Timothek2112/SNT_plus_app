@@ -6,7 +6,7 @@
 
     <NavigationPage.TitleView>
         <Grid ColumnDefinitions="0.2*,0.6*,0.1*" RowDefinitions="0.15*,0.85*,0*">
-            <Label Grid.Column="1" Grid.Row="1" Style="{StaticResource TitleLabel}" Text="Показания" HorizontalOptions="StartAndExpand"></Label>
+            <Label Grid.Column="1" Grid.Row="1" Style="{StaticResource TitleLabel}" TextColor="White" Text="Показания" HorizontalOptions="Start"></Label>
         </Grid>
     </NavigationPage.TitleView>
 
@@ -16,13 +16,39 @@
 
     <ContentPage.Content>
         
-        <StackLayout BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark}, Light={StaticResource PageBackgroundColorLight}}">
-            
-            <ScrollView>
-                <StackLayout x:Name="CardList" Margin="12">
+        <StackLayout x:Name="stack" BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark}, Light={StaticResource PageBackgroundColorLight}}">
+            <Grid Margin="0" RowDefinitions="40,40,40" ColumnDefinitions="0.6*,1*">
+                <Label  Grid.Column="0" Grid.Row ="0" Text="Год:" Style="{StaticResource ListLabelStyle}" VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="35,0,0,0"/>
+                <Picker Grid.Column="1" Grid.Row ="0" SelectedIndexChanged="PeriodPicker_SelectedIndexChanged" Style="{StaticResource PickerStyle}" Margin="0,0,50,0" x:Name="PeriodPicker" HorizontalTextAlignment="Center" BindingContext="main"></Picker>
+                <Label  Grid.Column="0" Grid.Row ="1" Text="Показания:" Style="{StaticResource ListLabelStyle}" VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="35,0,0,0"/>
+                <Picker Grid.Column="1" Grid.Row ="1" SelectedIndexChanged="StatePicker_SelectedIndexChanged" Style="{StaticResource PickerStyle}" Margin="0,0,50,0" x:Name="StatePicker" HorizontalTextAlignment="Center" BindingContext="main"></Picker>
+                <Label  Grid.Column="0" Grid.Row ="2" Text="Участок:" Style="{StaticResource ListLabelStyle}" VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="35,0,0,0"/>
+                <Picker Grid.Column="1" Grid.Row ="2" SelectedIndexChanged="UchastokPicker_SelectedIndexChanged" Style="{StaticResource PickerStyle}" Margin="0,0,50,0" HorizontalTextAlignment="Center" x:Name="UchastokPicker" BindingContext="main"></Picker>
+            </Grid>
+            <ActivityIndicator x:Name="LoadingIndicator"></ActivityIndicator>
+            <RefreshView x:Name="refreshView">
+                <ListView x:Name="CardList" Margin="12" RowHeight="200">
+                    <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                <Frame Margin="0,5,0,5" HeightRequest="200" CornerRadius="30" HasShadow="True" BackgroundColor="{AppThemeBinding Light={StaticResource PageSecondaryBackgroundColorLight}, Dark={StaticResource PageSecondaryBackgroundColorDark}}" Padding="0">
+                                    <Grid RowDefinitions="40,2,40,40, 10" ColumnDefinitions="2*,2*,1*" HeightRequest="400" >
+                                        <Label Grid.Column="1" Grid.Row="0" Text="Период:" Style="{StaticResource ListLabelStyle}" VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="35,0,0,0"/>
+                                        <Label x:Name="period_lbl" Grid.Column="2" Grid.Row="0" HorizontalOptions="StartAndExpand" VerticalOptions="Center" Text="{Binding period}" Style="{StaticResource ListLabelStyle}"/>
+                                        <Frame HasShadow="True" Grid.ColumnSpan="3" Grid.Row="1" BackgroundColor="{AppThemeBinding Dark={StaticResource BorderColorDark}, Light={StaticResource BorderColorLight}}"/>
+                                        <Label Grid.Column="0" Grid.Row="2" Text="Показание:" HorizontalOptions="EndAndExpand" Style="{StaticResource ListLabelStyle}"/>
+                                        <Label Grid.Column="0" Grid.Row="3" Text="За период:" HorizontalOptions="EndAndExpand" Style="{StaticResource ListLabelStyle}"/>
 
-                </StackLayout>
-            </ScrollView>
+                                        <Label x:Name="pokazanie_lbl" Grid.Column="1" Grid.Row="2" Text="{Binding pokazanie}" Style="{StaticResource ListLabelStyle}"/>
+                                        <Label x:Name="forPeriod_lbl" Grid.Column="1" Grid.Row="3" Text="{Binding forPeriod}" Style="{StaticResource ListLabelStyle}"/>
+                                    </Grid>
+                                </Frame>
+                            </ViewCell>
+
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                </ListView>
+            </RefreshView>
         </StackLayout>
 
     </ContentPage.Content>

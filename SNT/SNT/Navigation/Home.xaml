@@ -1,99 +1,360 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="SNT.Home"
              NavigationPage.HasBackButton="False"
              NavigationPage.HasNavigationBar="True" IsVisible="True"
              >
 
     <NavigationPage.TitleView>
-        <Label Grid.Column="1" Grid.Row="1" Style="{StaticResource TitleLabel}" TextColor="{StaticResource NavBarTitle}" Text="Главная" HorizontalOptions="CenterAndExpand"></Label>
-        
+        <Label
+            Grid.Column="1"
+            Grid.Row="1"
+            Style="{StaticResource TitleLabel}"
+            TextColor="{StaticResource NavBarTitle}"
+            Text="Главная" 
+            HorizontalOptions="StartAndExpand">
+        </Label>
     </NavigationPage.TitleView>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Order="Secondary" Text="Настройки"/>
+        <ToolbarItem
+            Order="Secondary"
+            Text="Настройки"
+            />
     </ContentPage.ToolbarItems>
-    <RefreshView x:Name="RefreshView">
-    <ScrollView Padding="-10" BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark}, Light={StaticResource PageBackgroundColorLight}}">
-        <Grid HeightRequest="1000" Padding="20">
+    <RefreshView
+        x:Name="RefreshView"
+        >
+    <ScrollView
+        Padding="-10"
+        BackgroundColor="{AppThemeBinding
+        Dark={StaticResource PrimaryButtonDark},
+        Light={StaticResource PageBackgroundColorLight}}"
+        >
+        <Grid
+            HorizontalOptions="Center"
+            Padding="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="290"/>
+            <RowDefinition Height="250"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+            <Label 
+                Text="Суммарные долги/Переплаты:"
+                   Grid.ColumnSpan="2"
+                   Style="{StaticResource MediumLabelStyle}"
+                   FontSize="23"
+                   />
 
-            <Frame Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" CornerRadius="30" BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark}, Light={StaticResource PageBackgroundColorLight}}">
-                <Grid RowDefinitions="130,0.2*,0.2*"  Padding="-10">
-                    <Label x:Name="DebtLabel" Grid.Row="0" Text="Текст" Style="{StaticResource MediumLabelStyle}"/>
-                    <Button  Grid.Row="2" Text="Подробнее" Margin="-10,10,-10,-10" CornerRadius="30" Style="{StaticResource FlyoutButtonStyle}"/>
-                    <Picker Style="{StaticResource PickerStyle}" FontSize="25" HorizontalTextAlignment="Center" SelectedIndexChanged="UchastokPicker_SelectedIndexChanged" x:Name="UchastokPicker" Grid.Row="1"/>
+                <CarouselView
+                    Margin="-17,40,-30,0"
+                    Grid.ColumnSpan="2" 
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    x:Name="Debts"
+                    xct:SideMenuView.ParallaxValue="20"
+                    IsBounceEnabled="true"
+                    Loop="false"
+                    HorizontalScrollBarVisibility="Always"
+                    >
+                    <CarouselView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Horizontal" ItemSpacing="20"/>
+                    </CarouselView.ItemsLayout>
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame
+                                
+                                CornerRadius="30"
+                                BackgroundColor="{AppThemeBinding
+                                Dark={StaticResource PrimaryButtonDark},
+                                Light={StaticResource BackgroundGray}}"
+                            >
+                                <Grid Padding="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Scale="1"
+                                        Margin="-30"
+                                        Grid.ColumnSpan="2"
+                                        Grid.RowSpan="5"
+                                        Aspect="Fill"
+                                       Source="debt_background.jpg"
+                                       BackgroundColor="White"
+                                       Opacity="0.6">
+                                        </Image>
+                                        <Label
+                                        TextColor="Black"
+                                        Text="Вода:"
+                                        HorizontalOptions="Center"
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        FontSize="23"
+                                        Style="{StaticResource MediumLabelStyle}"
+                                    />
+                                        <Label
+                                        TextColor="Black"
+                                        Text="Э/Э:"
+                                        HorizontalOptions="Center"
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        FontSize="23"
+                                        Style="{StaticResource MediumLabelStyle}"
+                                    />
+                                        <Label
+                                        TextColor="Black"
+                                        Text="Пени:"
+                                        HorizontalOptions="Center"
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        FontSize="23"
+                                        Style="{StaticResource MediumLabelStyle}"
+                                    />
+                                        <Label
+                                        TextColor="Black"
+                                        Text="Чл. взнос:"
+                                        HorizontalOptions="Center"
+                                        Grid.Row="3"
+                                        Grid.Column="0"
+                                        FontSize="23"
+                                        Style="{StaticResource MediumLabelStyle}"
+                                    />
+                                        <Label
+                                        TextColor="Black"
+                                        Text="Цел. взнос:"
+                                        HorizontalOptions="Center"
+                                        Grid.Row="4"
+                                        Grid.Column="0"
+                                        FontSize="23"
+                                        Style="{StaticResource MediumLabelStyle}"
+                                    />
+                                        <Label
+                                        TextColor="Black"
+                                        Text="{Binding water}"
+                                        HorizontalOptions="Center"
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        FontSize="23"
+                                        Style="{StaticResource MediumLabelStyle}"
+                                    />
+                                        <Label
+                                        TextColor="Black"
+                                        Text="{Binding electricity}"
+                                        HorizontalOptions="Center"
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        FontSize="23"
+                                        Style="{StaticResource MediumLabelStyle}"
+                                    />
+                                        <Label
+                                        TextColor="Black"
+                                        Text="{Binding penality}"
+                                        HorizontalOptions="Center"
+                                        Grid.Row="2"
+                                        Grid.Column="1"
+                                        FontSize="23"
+                                        Style="{StaticResource MediumLabelStyle}"
+                                    />
+                                        <Label
+                                        TextColor="Black"
+                                        Text="{Binding membership}"
+                                        HorizontalOptions="Center"
+                                        Grid.Row="3"
+                                        Grid.Column="1"
+                                        FontSize="23"
+                                        Style="{StaticResource MediumLabelStyle}"
+                                    />
+                                        <Label
+                                        TextColor="Black"
+                                        Text="{Binding target}"
+                                        HorizontalOptions="Center"
+                                        Grid.Row="4"
+                                        Grid.Column="1"
+                                        FontSize="23"
+                                        Style="{StaticResource MediumLabelStyle}"
+                                    />
+                                    </Grid>
+
+                            </Frame>
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+            
+           
+
+            <Frame
+                Grid.Row="1" Grid.Column="0"
+                CornerRadius="30"
+                Margin="0, 10, 0, 0"
+                BackgroundColor="{AppThemeBinding
+                                    Dark={StaticResource PrimaryButtonDark},
+                                    Light={StaticResource PrimaryButtonLight}}">
+                    <Grid RowDefinitions="100,100">
+                    <ImageButton
+                        x:Name="ElectricityButton"
+                        Source="ElectricityIco.png"
+                        BackgroundColor="Transparent"
+                        Clicked="ElectricityButton_Clicked"/>
+                    <Label
+                        Grid.Row="1"
+                        TextColor="{StaticResource PageBackgroundColorLight}"
+                        Style="{StaticResource MediumLabelStyle}"
+                        Text="Электроэнергия"
+                        HorizontalOptions="Center"/>
+                </Grid>
+            </Frame>
+
+            <Frame Grid.Row="1"
+                   Grid.Column="1"
+                   CornerRadius="30"
+                   Margin="0, 10, 0, 0"
+                   BackgroundColor="{AppThemeBinding 
+                                        Dark={StaticResource PrimaryButtonDark},
+                                        Light={StaticResource PrimaryButtonLight}}">
+                    <Grid RowDefinitions="0.8*,0.2*" >
+                    <ImageButton x:Name="WaterButton"
+                                 Source="WaterIco.png"
+                                 BackgroundColor="Transparent"
+                                 Clicked="WaterButton_Clicked"/>
+                    <Label Grid.Row="1"
+                           TextColor="White"
+                           Style="{StaticResource MediumLabelStyle}"
+                           Text="Вода"
+                           HorizontalOptions="Center"/>
+                </Grid>
+            </Frame>
+
+                <Frame Grid.Row="2"
+                   Grid.Column="0"
+                   CornerRadius="30"
+                   Margin="0, 10, 0, 0"
+                   BackgroundColor="{AppThemeBinding 
+                                        Dark={StaticResource PrimaryButtonDark},
+                                        Light={StaticResource PrimaryButtonLight}}">
+                <Grid RowDefinitions="0.8*,0.2*">
+                    <ImageButton  
+                        Source="PenalityIco.png"
+                        BackgroundColor="Transparent"
+                        Clicked="Button_Clicked"/>
+                    <Label Grid.Row="1"
+                           Style="{StaticResource MediumLabelStyle}"
+                           Text="Пеня"
+                           TextColor="{StaticResource PageBackgroundColorLight}"
+                           HorizontalOptions="Center"/>
+                </Grid>
+            </Frame>
+
+            <Frame Grid.Row="2"
+                   Grid.Column="1"
+                   CornerRadius="30"
+                   Margin="0, 10, 0, 0"
+                   BackgroundColor="{AppThemeBinding 
+                                        Dark={StaticResource PrimaryButtonDark},
+                                        Light={StaticResource PrimaryButtonLight}}">
+                <Grid RowDefinitions="0.8*,0.2*">
+                    <ImageButton x:Name="Membership"
+                            Clicked="Membership_Clicked"
+                            BackgroundColor="Transparent"
+                            Source="MembershipIco.png"/>
+                    <Label Grid.Row="1"
+                           TextColor="{StaticResource PageBackgroundColorLight}"
+                           Style="{StaticResource MediumLabelStyle}"
+                           Text="Членские"
+                           HorizontalOptions="Center"/>
+                </Grid>
+            </Frame>
+
+            <Frame Grid.Row="3"
+                   Grid.Column="0"
+                   CornerRadius="30"
+                   Margin="0, 10, 0, 0"
+                   BackgroundColor="{AppThemeBinding
+                                        Dark={StaticResource PrimaryButtonDark}, 
+                                        Light={StaticResource PrimaryButtonLight}}">
+                <Grid RowDefinitions="0.8*,0.2*">
+                    <ImageButton  
+                             Clicked="Button_Clicked_1"
+                            BackgroundColor="Transparent"/>
+                    <Label Grid.Row="1"
+                           Style="{StaticResource MediumLabelStyle}"
+                           Text="Целевые"
+                           TextColor="{StaticResource PageBackgroundColorLight}"
+                           HorizontalOptions="Center"/>
                 </Grid>
             </Frame>
             
-            <Frame Grid.Row="1" Grid.Column="0" CornerRadius="30" Margin="0, 10, 0, 0" BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark}, Light={StaticResource PageBackgroundColorLight}}">
-                <Grid RowDefinitions="0.8*,0.2*" Padding="-30">
-                    <Button x:Name="ElectricityButton" Text="Кнопка" Clicked="ElectricityButton_Clicked"/>
-                    <Label Grid.Row="1" Style="{StaticResource MediumLabelStyle}" Text="Электроэнергия" HorizontalOptions="Center"/>
+            <Frame Grid.Row="3"
+                   Grid.Column="1"
+                   CornerRadius="30"
+                   Margin="0, 10, 0, 0"
+                   BackgroundColor="{AppThemeBinding
+                                        Dark={StaticResource PrimaryButtonDark},
+                                        Light={StaticResource PrimaryButtonLight}}">
+            <Grid RowDefinitions="0.8*,0.2*">
+                    <ImageButton Clicked="Button_Clicked_2"
+                            Source="NewsIco.png"
+                            BackgroundColor="Transparent"/>
+                    <Label Grid.Row="1"
+                           Style="{StaticResource MediumLabelStyle}"
+                           Text="Новости"
+                           TextColor="{StaticResource PageBackgroundColorLight}"
+                           HorizontalOptions="Center"/>
                 </Grid>
             </Frame>
 
-            <Frame Grid.Row="1" Grid.Column="1" CornerRadius="30" Margin="0, 10, 0, 0" BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark}, Light={StaticResource PageBackgroundColorLight}}">
-                <Grid RowDefinitions="0.8*,0.2*" Padding="-30">
-                    <Button x:Name="WaterButton" Text="Кнопка" Clicked="WaterButton_Clicked"/>
-                    <Label Grid.Row="1" Style="{StaticResource MediumLabelStyle}" Text="Вода" HorizontalOptions="Center"/>
+            <Frame Grid.Row="4"
+                   Grid.Column="0"
+                   CornerRadius="30"
+                   Margin="0, 10, 0, 0"
+                   BackgroundColor="{AppThemeBinding
+                                        Dark={StaticResource PrimaryButtonDark},
+                                        Light={StaticResource PrimaryButtonLight}}">
+                <Grid RowDefinitions="0.8*,0.2*">
+                    <ImageButton x:Name="PokazaniaButton"
+                            Source="PokazaniaIco.png"
+                            Clicked="PokazaniaButton_Clicked"
+                            BackgroundColor="Transparent"/>
+                    <Label Grid.Row="1"
+                           Style="{StaticResource MediumLabelStyle}"
+                           Text="Показания"
+                           TextColor="{StaticResource PageBackgroundColorLight}"
+                           HorizontalOptions="Center"/>
                 </Grid>
             </Frame>
 
-            <Frame Grid.Row="2" Grid.Column="0" CornerRadius="30" Margin="0, 10, 0, 0" BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark}, Light={StaticResource PageBackgroundColorLight}}">
-                <Grid RowDefinitions="0.8*,0.2*" Padding="-30">
-                    <Button  Text="Кнопка" Clicked="Button_Clicked"/>
-                    <Label Grid.Row="1" Style="{StaticResource MediumLabelStyle}" Text="Пеня" HorizontalOptions="Center"/>
+            <Frame Grid.Row="4"
+                   Grid.Column="1"
+                   CornerRadius="30"
+                   Margin="0, 10, 0, 0"
+                   BackgroundColor="{AppThemeBinding
+                                        Dark={StaticResource PrimaryButtonDark}, 
+                                        Light={StaticResource PrimaryButtonLight}}">
+                <Grid RowDefinitions="0.8*,0.2*">
+                    <ImageButton  Clicked="Button_Clicked_3"
+                                  Source="PenalityIco.png"
+                                  BackgroundColor="Transparent"/>
+                    <Label Grid.Row="1" 
+                           Style="{StaticResource MediumLabelStyle}"
+                           Text="Обращение"
+                           TextColor="{StaticResource PageBackgroundColorLight}"
+                           HorizontalOptions="Center"/>
                 </Grid>
             </Frame>
-
-            <Frame Grid.Row="2" Grid.Column="1" CornerRadius="30" Margin="0, 10, 0, 0" BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark}, Light={StaticResource PageBackgroundColorLight}}">
-                <Grid RowDefinitions="0.8*,0.2*" Padding="-30">
-                    <Button x:Name="Membership" Clicked="Membership_Clicked" Text="Кнопка"/>
-                    <Label Grid.Row="1" Style="{StaticResource MediumLabelStyle}" Text="Членские" HorizontalOptions="Center"/>
-                </Grid>
-            </Frame>
-
-            <Frame Grid.Row="3" Grid.Column="0" CornerRadius="30" Margin="0, 10, 0, 0" BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark}, Light={StaticResource PageBackgroundColorLight}}">
-                <Grid RowDefinitions="0.8*,0.2*" Padding="-30">
-                    <Button  Text="Кнопка" Clicked="Button_Clicked_1"/>
-                    <Label Grid.Row="1" Style="{StaticResource MediumLabelStyle}" Text="Целевые" HorizontalOptions="Center"/>
-                </Grid>
-            </Frame>
-            
-            <Frame Grid.Row="3" Grid.Column="1" CornerRadius="30" Margin="0, 10, 0, 0" BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark}, Light={StaticResource PageBackgroundColorLight}}">
-            <Grid RowDefinitions="0.8*,0.2*" Padding="-30">
-                    <Button  Text="Кнопка"/>
-                    <Label Grid.Row="1" Style="{StaticResource MediumLabelStyle}" Text="Новости" HorizontalOptions="Center"/>
-                </Grid>
-            </Frame>
-
-            <Frame Grid.Row="4" Grid.Column="0" CornerRadius="30" Margin="0, 10, 0, 0" BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark}, Light={StaticResource PageBackgroundColorLight}}">
-                <Grid RowDefinitions="0.8*,0.2*" Padding="-30">
-                    <Button x:Name="PokazaniaButton" Text="Кнопка" Clicked="PokazaniaButton_Clicked"/>
-                    <Label Grid.Row="1" Style="{StaticResource MediumLabelStyle}" Text="Показания" HorizontalOptions="Center"/>
-                </Grid>
-            </Frame>
-
-            <Frame Grid.Row="4" Grid.Column="1" CornerRadius="30" Margin="0, 10, 0, 0" BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark}, Light={StaticResource PageBackgroundColorLight}}">
-                <Grid RowDefinitions="0.8*,0.2*" Padding="-30">
-                    <Button  Text="Кнопка"/>
-                    <Label Grid.Row="1" Style="{StaticResource MediumLabelStyle}" Text="Обращение" HorizontalOptions="Center"/>
-                </Grid>
-            </Frame>
-
-            
     </Grid>
             </ScrollView>
     </RefreshView>

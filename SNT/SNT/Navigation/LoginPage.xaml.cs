@@ -31,7 +31,7 @@ namespace SNT
             catch (Exception ex)
             {
                 Debug.WriteLine("ОШИБКА ПРОВЕРКИ ЛОГИНА" + ex.Message);
-                this.DisplayToastAsync(ex.Message);
+                this.DisplayToastAsync("Ошибка подключения к серверу");
             }
         }
 
@@ -63,7 +63,7 @@ namespace SNT
                 code = await loginRepository.login(loginEntry.Text, passwordEntry.Text);
                 proceedCode(code);
             }
-            catch (Exception ex) { this.DisplayToastAsync(ex.Message); }
+            catch (Exception ex) { this.DisplayToastAsync("Ошибка входа " + code.ToString() ); }
         }
         
         private async void proceedCode(HttpStatusCode code)

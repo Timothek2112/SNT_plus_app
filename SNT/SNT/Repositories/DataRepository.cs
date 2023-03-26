@@ -12,6 +12,7 @@ using SNT.Navigation;
 using Xamarin.Forms;
 using MonkeyCache.FileStore;
 using Xamarin.Essentials;
+using System.Linq;
 
 namespace SNT.Repositories
 {
@@ -40,7 +41,17 @@ namespace SNT.Repositories
     {
         HttpClient client = new HttpClient();
         CaсheRepository cache = new CaсheRepository();
-        public async Task<List<PaymentPokazanieModel>> GetStateForYear(int yearFixed, int uchastokId, State state)
+
+        public async Task<int> GetUchastokId(int uchastok, int sntId)
+        {
+            string url = Addresses.getUchastokId + uchastok + "/" + sntId;
+            HttpResponseMessage response = await client.GetAsync(url);
+            string responseString = await response.Content.ReadAsStringAsync();
+            UchastokResponse snt = JsonConvert.DeserializeObject<UchastokResponse>(responseString);
+            return snt.SntId;
+        }
+
+        public async Task<List<PaymentPokazanieModel>> GetStateForYear(int yearFixed, int uchastokId, int sntId, State state)
         {
             Dictionary<string, int> requestData = new Dictionary<string, int>
             {
@@ -48,7 +59,8 @@ namespace SNT.Repositories
                 { "endPeriodY", DateTime.Now.Year % 100 },
                 { "startPeriodM", 1 },
                 { "endPeriodM", 12 },
-                { "uchastokId", uchastokId }
+                { "uchastokId", await GetUchastokId(uchastokId, sntId) },
+                { "SntId", sntId },
             };
             string url = null;
             switch (state)
@@ -62,26 +74,15 @@ namespace SNT.Repositories
                     break;
             }
 
-            string responseString = null;
-
-            if (!cache.ReturnStringIfExistAndActual(url + uchastokId.ToString() + state.ToString(), out responseString))
-            {
-                StringContent requestBody = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestData), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(url, requestBody);
-                responseString = await response.Content.ReadAsStringAsync();
-                cache.CacheStringData(url + uchastokId.ToString() + state.ToString(), responseString);
-                Debug.WriteLine($"Сохранены кэшированные данные по {url + uchastokId.ToString()}" + state.ToString());
-            }
-            else
-            {
-                Debug.WriteLine($"Загруженны кэшированные данные по {url + uchastokId.ToString()}" + state.ToString());
-            }
-            
+            StringContent requestBody = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestData), Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PostAsync(url, requestBody);
+            string responseString = await response.Content.ReadAsStringAsync();
             List<PaymentPokazanieModel> result = JsonConvert.DeserializeObject<List<PaymentPokazanieModel>>(responseString);
+            
             return result;
         }
 
-        public async Task<List<RateModel>> GetRates()
+        public async Task<List<RateModel>> GetRates(int sntId)
         {
             Dictionary<string, int> requestData = new Dictionary<string, int>
             {
@@ -89,12 +90,13 @@ namespace SNT.Repositories
                 { "endPeriodY", 99 },
                 { "startPeriodM", 1 },
                 { "endPeriodM", 12 },
+                { "SntId", sntId },
             };
             string url = Addresses.ratesForPeriod;
-
+            string responseString = null;
             StringContent requestBody = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestData), Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PostAsync(url, requestBody);
-            string responseString = await response.Content.ReadAsStringAsync();
+            responseString = await response.Content.ReadAsStringAsync();
             List<RateModel> result = null;
             if (responseString != null)
             {
@@ -107,179 +109,263 @@ namespace SNT.Repositories
         {
             string responseString = null;
             string url = Addresses.getUsersUchastki + userId;
-
-            if (!cache.isExpired(url) && cache.isExist(url)) {
-                responseString = cache.GetStringFromCache(url);
-                Debug.WriteLine("Загружены кэшированные данные по " + url);
-            }
-            else
-            {
-                HttpResponseMessage response = await client.GetAsync(url);
-                responseString = await response.Content.ReadAsStringAsync();
-                cache.CacheStringData(url, responseString);
-                Debug.WriteLine("Сохранен кэш по " + url);
-            }
-
+            HttpResponseMessage response = await client.GetAsync(url);
+            responseString = await response.Content.ReadAsStringAsync();
             List<UchastkiModel> uchastki = JsonConvert.DeserializeObject<List<UchastkiModel>>(responseString);
             return uchastki;
         }
 
-        public async Task<List<ElectricityCardModel>> GetElectricityDebtCards(int year, int uchastok)
+        public async Task<List<ElectricityCardModel>> GetElectricityDebtCards(int year, int uchastok, int sntId)
         {
-            List<DebtModel> debts = await CalculateRepository.GetDebtForYear(year, uchastok);
             List<ElectricityCardModel> cards = new List<ElectricityCardModel>();
-            for (int i = 0; i < 12; i++)
+            try
             {
-                cards.Add(new ElectricityCardModel());
-                cards[i].period = i+1 < 10 ? "0" + $"{i+1}.{year}" : $"{i+1}.{year}";
-                cards[i].debt = debts[i].electricityActualDebt;
-                cards[i].payment = debts[i].payment.electricity;
-                cards[i].SetAmount();
+                List<DebtModel> debts = await CalculateRepository.GetDebtForYear(year, uchastok, sntId);
+                for (int i = 0; i < 12; i++)
+                {
+                    cards.Add(new ElectricityCardModel());
+                    cards[i].period = i + 1 < 10 ? "0" + $"{i + 1}.{year}" : $"{i + 1}.{year}";
+                    cards[i].debt = debts[i].electricityActualDebt;
+                    cards[i].payment = debts[i].payment.electricity;
+                    cards[i].SetAmount();
+                }
+            }
+            catch
+            {
+                Debug.WriteLine("Ошибка подсчета долгов");
             }
             return cards;
         }
 
-        public async Task<List<ElectricityCardModel>> GetWaterDebtCards(int year, int uchastok)
+        public async Task<List<ElectricityCardModel>> GetWaterDebtCards(int year, int uchastok, int sntId)
         {
-            List<DebtModel> debts = await CalculateRepository.GetDebtForYear(year, uchastok);
             List<ElectricityCardModel> cards = new List<ElectricityCardModel>();
-            for (int i = 0; i < 12; i++)
+            try
             {
-                cards.Add(new ElectricityCardModel());
-                cards[i].period = i + 1 < 10 ? "0" + $"{i + 1}.{year}" : $"{i + 1}.{year}";
-                cards[i].debt = debts[i].waterPokazanieActualDebt;
-                cards[i].payment = debts[i].payment.water;
-                cards[i].SetAmount();
+                List<DebtModel> debts = await CalculateRepository.GetDebtForYear(year, uchastok, sntId);
+                for (int i = 0; i < 12; i++)
+                {
+                    cards.Add(new ElectricityCardModel());
+                    cards[i].period = i + 1 < 10 ? "0" + $"{i + 1}.{year}" : $"{i + 1}.{year}";
+                    cards[i].debt = debts[i].waterPokazanieActualDebt;
+                    cards[i].payment = debts[i].payment.water;
+                    cards[i].SetAmount();
+                }
+            }
+            catch
+            {
+                Debug.WriteLine("Ошибка подсчета долгов");
             }
             return cards;
         }
 
-        public async Task<List<ElectricityCardModel>> GetPenalityDebtCards(int year, int uchastok)
+        public async Task<List<ElectricityCardModel>> GetPenalityDebtCards(int year, int uchastok, int sntId)
         {
-            List<DebtModel> debts = await CalculateRepository.GetDebtForYear(year, uchastok);
             List<ElectricityCardModel> cards = new List<ElectricityCardModel>();
-            for (int i = 0; i < 12; i++)
+            try
             {
-                cards.Add(new ElectricityCardModel());
-                cards[i].period = i + 1 < 10 ? "0" + $"{i + 1}.{year}" : $"{i + 1}.{year}";
-                cards[i].debt = debts[i].penality;
-                cards[i].payment = debts[i].payment.penality;
-                cards[i].SetAmount();
+                List<DebtModel> debts = await CalculateRepository.GetDebtForYear(year, uchastok, sntId);
+                for (int i = 0; i < 12; i++)
+                {
+                    cards.Add(new ElectricityCardModel());
+                    cards[i].period = i + 1 < 10 ? "0" + $"{i + 1}.{year}" : $"{i + 1}.{year}";
+                    cards[i].debt = debts[i].penality;
+                    cards[i].payment = debts[i].payment.penality;
+                    cards[i].SetAmount();
+                }
+            }
+            catch { Debug.WriteLine("Ошибка подсчета долгов"); }
+            return cards;
+        }
+
+        public async Task<List<ElectricityCardModel>> GetMembershipDebtCards(int year, int uchastok, int sntId)
+        {
+            List<ElectricityCardModel> cards = new List<ElectricityCardModel>();
+            try
+            {
+                List<DebtModel> debts = await CalculateRepository.GetDebtForYear(year, uchastok, sntId);
+                for (int i = 0; i < 12; i++)
+                {
+                    cards.Add(new ElectricityCardModel());
+                    cards[i].period = i + 1 < 10 ? "0" + $"{i + 1}.{year}" : $"{i + 1}.{year}";
+                    cards[i].debt = debts[i].membership;
+                    cards[i].payment = debts[i].payment.membership;
+                    cards[i].SetAmount();
+                }
+            }
+            catch
+            {
+                Debug.WriteLine("Ошибка подсчета долгов");
             }
             return cards;
         }
 
-        public async Task<List<ElectricityCardModel>> GetMembershipDebtCards(int year, int uchastok)
+        public async Task<List<ElectricityCardModel>> GetTargetDebtCards(int year, int uchastok, int sntId)
         {
-            List<DebtModel> debts = await CalculateRepository.GetDebtForYear(year, uchastok);
             List<ElectricityCardModel> cards = new List<ElectricityCardModel>();
-            for (int i = 0; i < 12; i++)
+            try
             {
-                cards.Add(new ElectricityCardModel());
-                cards[i].period = i + 1 < 10 ? "0" + $"{i + 1}.{year}" : $"{i + 1}.{year}";
-                cards[i].debt = debts[i].membership;
-                cards[i].payment = debts[i].payment.membership;
-                cards[i].SetAmount();
+                List<DebtModel> debts = await CalculateRepository.GetDebtForYear(year, uchastok, sntId);
+                for (int i = 0; i < 12; i++)
+                {
+                    cards.Add(new ElectricityCardModel());
+                    cards[i].period = i + 1 < 10 ? "0" + $"{i + 1}.{year}" : $"{i + 1}.{year}";
+                    cards[i].debt = debts[i].target;
+                    cards[i].payment = debts[i].payment.target;
+                    cards[i].SetAmount();
+                }
             }
+            catch { Debug.WriteLine("Ошибка подсчета долгов"); }
             return cards;
         }
 
-        public async Task<List<ElectricityCardModel>> GetTargetDebtCards(int year, int uchastok)
+        public async Task<bool> CreateElectricityPokazanie(int uchastok, int year, int month, float electricity, int sntId)
         {
-            List<DebtModel> debts = await CalculateRepository.GetDebtForYear(year, uchastok);
-            List<ElectricityCardModel> cards = new List<ElectricityCardModel>();
-            for (int i = 0; i < 12; i++)
+            HttpResponseMessage response = null;
+            try
             {
-                cards.Add(new ElectricityCardModel());
-                cards[i].period = i + 1 < 10 ? "0" + $"{i + 1}.{year}" : $"{i + 1}.{year}";
-                cards[i].debt = debts[i].target;
-                cards[i].payment = debts[i].payment.target;
-                cards[i].SetAmount();
+                string url = Addresses.createPokazanie;
+                Dictionary<string, string> requestData = new Dictionary<string, string>
+                {
+                    { "uchastokId", await SecureStorage.GetAsync(uchastok.ToString()) },
+                    { "electricity", electricity.ToString() },
+                    { "month", month.ToString() },
+                    { "year", year.ToString() },
+                    { "SntId", sntId.ToString() }
+                };
+                StringContent requestBody = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestData), Encoding.UTF8, "application/json");
+                response = await client.PostAsync(url, requestBody);
             }
-            return cards;
-        }
-
-        public async Task<bool> CreateElectricityPokazanie(int uchastok, int year, int month, float electricity)
-        {
-            string url = Addresses.createPokazanie;
-            Dictionary<string, string> requestData = new Dictionary<string, string>
+            catch
             {
-                { "uchastokId", uchastok.ToString() },
-                { "electricity", electricity.ToString() },
-                { "month", month.ToString() },
-                { "year", year.ToString() }
-            };
-            StringContent requestBody = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestData), Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.PostAsync(url, requestBody);
+                Debug.WriteLine("Ошибка создания показания");
+            }
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> CreateWaterPokazanie(int uchastok, int year, int month, float water)
+        public async Task<bool> CreateWaterPokazanie(int uchastok, int year, int month, float water, int sntId)
         {
             string url = Addresses.createPokazanie;
             Dictionary<string, string> requestData = new Dictionary<string, string>
             {
-                { "uchastokId", uchastok.ToString() },
+                { "uchastokId", await SecureStorage.GetAsync(uchastok.ToString()) },
                 { "water", water.ToString() },
                 { "month", month.ToString() },
-                { "year", year.ToString() }
+                { "year", year.ToString() },
+                { "SntId", sntId.ToString() }
             };
             StringContent requestBody = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestData), Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PostAsync(url, requestBody);
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> CreateTargetPokazanie(int uchastok, int year, int month, float target)
+        public async Task<DebtCardModel> GetDebts(int uchastk, int sntId)
         {
-            string url = Addresses.createPokazanie;
+            DebtCardModel cards = null;
+            string url = Addresses.getDebts;
+            
+            try
+            {
+                Dictionary<string, int> requestData = new Dictionary<string, int>
+                {
+                    { "uchastokId", int.Parse(await SecureStorage.GetAsync(uchastk.ToString())) },
+                    { "SntId", sntId }
+                };
+                
+                string serialized = System.Text.Json.JsonSerializer.Serialize(requestData);
+                StringContent requestBody = new StringContent(serialized, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, requestBody);
+                string responseString = await response.Content.ReadAsStringAsync();
+                cards = JsonConvert.DeserializeObject<DebtCardModel>(responseString);
+            }
+            catch { Debug.WriteLine("Ошибка подсчета долгов"); }
+            return cards;
+        }
+
+        public async Task<List<NewsModel>> getNews(int count, int sntId)
+        {
+            string url = Addresses.getNews + count + "/" + sntId;
+            HttpResponseMessage response = await client.GetAsync(url);
+            string responseString = await response.Content.ReadAsStringAsync();
+            List<NewsModel> news = JsonConvert.DeserializeObject<List<NewsModel>>(responseString);
+            return news;
+        }
+
+        public async Task<List<PokazanieCardModel>> GetWaterPokazania(int year,int uchastok, int sntId)
+        {
+            List<PaymentPokazanieModel> pokazania = await this.GetStateForYear(year, uchastok, sntId, State.Pokazania);
+            List<PokazanieCardModel> pokazaniaCards = new List<PokazanieCardModel>();
+            List<PokazanieModel> calculatedPokazania =  await CalculateRepository.CalculatePokazania(pokazania, year);
+            for (int i = 1; i <= 12; i++)
+            {
+                PokazanieModel currentPokazanie = calculatedPokazania[i-1];
+                
+                pokazaniaCards.Add(new PokazanieCardModel());
+                pokazaniaCards[pokazaniaCards.Count - 1].pokazanie = currentPokazanie.rawWater;
+                pokazaniaCards[pokazaniaCards.Count - 1].forPeriod = currentPokazanie.water;
+                pokazaniaCards[pokazaniaCards.Count - 1].period = i < 10 ? "0" + $"{i}.{year}" : $"{i}.{year}";
+
+            }
+            return pokazaniaCards;
+        }
+
+        public async Task<List<PokazanieCardModel>> GetElectricityPokazania(int year, int uchastok, int sntId)
+        {
+            List<PaymentPokazanieModel> pokazania = await this.GetStateForYear(year, uchastok, sntId, State.Pokazania);
+            List<PokazanieCardModel> pokazaniaCards = new List<PokazanieCardModel>();
+            List<PokazanieModel> calculatedPokazania = await CalculateRepository.CalculatePokazania(pokazania, year);
+            for (int i = 1; i <= 12; i++)
+            {
+                PokazanieModel currentPokazanie = calculatedPokazania[i - 1];
+
+                pokazaniaCards.Add(new PokazanieCardModel());
+                pokazaniaCards[pokazaniaCards.Count - 1].pokazanie = currentPokazanie.rawElectricity;
+                pokazaniaCards[pokazaniaCards.Count - 1].forPeriod = currentPokazanie.electricity;
+                pokazaniaCards[pokazaniaCards.Count - 1].period = i < 10 ? "0" + $"{i}.{year}" : $"{i}.{year}";
+
+            }
+            return pokazaniaCards;
+        }
+
+        public async Task<List<AppealModel>> GetAppeals(int userId)
+        {
+            HttpResponseMessage response = await client.GetAsync(Addresses.getAppeals + userId);
+            string responseString = await response.Content.ReadAsStringAsync();
+            Debug.WriteLine(responseString);
+            List<AppealModel> appeals = JsonConvert.DeserializeObject<List<AppealModel>>(responseString);
+            appeals.ForEach(appeal => appeal.BringToShowForm());
+            return appeals;
+
+        }
+
+        public async Task<bool> PostAppeal(int userId, AppealModel appeal, int sntId)
+        {
+            Dictionary<string, string> requestDictionary = new Dictionary<string, string>
+            {
+                { "userId", userId.ToString() },
+                { "theme", appeal.themeRaw },
+                { "text", appeal.mainTextRaw },
+                { "date", appeal.date },
+                { "SntId", sntId.ToString() },
+            };
+            
+            string serialized = System.Text.Json.JsonSerializer.Serialize(requestDictionary);
+            StringContent requestBody = new StringContent(serialized, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PostAsync(Addresses.postAppeal, requestBody);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async void SendPushToken(string token, string userId)
+        {
             Dictionary<string, string> requestData = new Dictionary<string, string>
             {
-                { "uchastokId", uchastok.ToString() },
-                { "target", target.ToString() },
-                { "month", month.ToString() },
-                { "year", year.ToString() }
-            };
-            StringContent requestBody = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestData), Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.PostAsync(url, requestBody);
-            return response.IsSuccessStatusCode;
-        }
-
-        public async Task<DebtCardModel> GetDebts(int uchastk)
-        {
-            string url = Addresses.getDebts;
-            string responseString = null;
-            Dictionary<string, int> requestData = new Dictionary<string, int>
-            {
-                { "uchastokId", uchastk }
+                { "token", token },
+                { "userId", userId.ToString() },
             };
 
-            if (Connectivity.NetworkAccess == NetworkAccess.Internet)
-            {
-                if (cache.ReturnStringIfExistAndActual(url, out responseString))
-                {
-                    Debug.WriteLine("Загружены кэшированные данные по " + url);
-                }
-                else
-                {
-                    string serialized = System.Text.Json.JsonSerializer.Serialize(requestData);
-                    Debug.WriteLine(serialized);
-                    StringContent requestBody = new StringContent(serialized, Encoding.UTF8, "application/json");
-
-                    HttpResponseMessage response = await client.PostAsync(url, requestBody);
-                    responseString = await response.Content.ReadAsStringAsync();
-                    cache.CacheStringData(url, responseString);
-                    cache.LongCacheStringData(url + "_LONG", responseString);
-                    Debug.WriteLine("Сохранены кэшированные данные по " + url);
-                }
-            }
-            else
-            {
-                cache.ReturnStringIfExistAndActual(url + "_LONG", out responseString);
-                Application.Current.Properties.Add("offline", true);
-            }
-
-            DebtCardModel cards = JsonConvert.DeserializeObject<DebtCardModel>(responseString);
-            return cards;
+            string serialized = System.Text.Json.JsonSerializer.Serialize(requestData);
+            StringContent requestBody = new StringContent(serialized, Encoding.UTF8, "application/json");
+            await client.PostAsync(Addresses.sendPushToken, requestBody);
         }
     }
 }

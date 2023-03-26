@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:res="clr-namespace:SNT"
+             xmlns:cus="clr-namespace:SNT.CustomElements"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SNT.Navigation.Appeals"
+             BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark}, Light={StaticResource PageBackgroundColorLight}}">
+    <NavigationPage.TitleView>
+        <Label x:Name ="TitleLabel" Style="{StaticResource TitleLabel}" TextColor="{StaticResource NavBarTitle}" Text="Обращения" HorizontalOptions="StartAndExpand"></Label>
+    </NavigationPage.TitleView>
+    
+    
+    <ContentPage.Content>
+        
+        <StackLayout>
+            <Button Text="Существующие обращения" Clicked="Button_Clicked_1" CornerRadius="40" Style="{StaticResource FlyoutButtonStyle}"  Margin="10"></Button>
+            <ScrollView>
+                <StackLayout>
+            <Frame Padding="5,10,5,10" Margin="10,5" CornerRadius="30" Grid.Column="1">
+                    <cus:CustomEditor x:Name="ThemeEditor" Keyboard="Plain" Placeholder="Тема обращения" AutoSize="TextChanges" MaxLength="300" />
+            </Frame>
+            <Frame VerticalOptions="StartAndExpand" Padding="5,10,5,10" Margin="10,5" CornerRadius="30" Grid.Column="1">
+                    <cus:CustomEditor x:Name="MainEditor" Keyboard="Plain" Placeholder="Основной текст обращения" AutoSize="TextChanges" MaxLength="1000" />
+            </Frame>
+             </StackLayout>
+            </ScrollView>
+            <Button Text="Отправить" Clicked="Button_Clicked" CornerRadius="40" VerticalOptions="Start" Style="{StaticResource FlyoutButtonStyle}" Margin="10"/>
+        </StackLayout>
+        
+    </ContentPage.Content>
+</ContentPage>

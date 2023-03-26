@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SNT.Navigation.ExistingAppeals">
+    <NavigationPage.TitleView>
+        <Label x:Name ="TitleLabel" Style="{StaticResource TitleLabel}" TextColor="{StaticResource NavBarTitle}" Text="Обращения" HorizontalOptions="StartAndExpand"></Label>
+    </NavigationPage.TitleView>
+    
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" Spacing="0" Margin="0">
+            <Label Margin="20" FontSize="25" Text="Существующие обращения" VerticalOptions="Start" HorizontalOptions="Center" Style="{StaticResource TitleLabel}"/>
+            <ListView x:Name="appealsList" ItemSelected="appealsList_ItemSelected" RowHeight="300">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame BackgroundColor="{Binding frameColor}" Margin="0,15,0,15" CornerRadius="30" HasShadow="True" Padding="10">
+                            <Grid RowDefinitions="*,*,*,*">
+                            <Label Text="{Binding statusString}" TextColor="{Binding statusColor}" Style="{StaticResource FlyoutLabelStyle}" HorizontalOptions="EndAndExpand" VerticalOptions="Center"/>
+                                <Label Grid.Row="1" Text="{Binding theme}" Style="{StaticResource TitleLabel}" HeightRequest="200"/>
+                            <Label Grid.Row="2" Text="{Binding mainText}" Style="{StaticResource FlyoutLabelStyle}"/>
+                            <Label Grid.Row="3" Text="Нажмите для отображения подробностей" Style="{StaticResource FlyoutLabelStyle}" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Gray"/>
+                            </Grid>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

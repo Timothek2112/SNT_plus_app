@@ -9,7 +9,13 @@ namespace SNT.Models
         
         public int userid { get; set; }
         public string token { get; set; }
+        public int SntId { get; set; }
         public LoginResponse() { }
         
+    }
+
+    class UchastokResponse
+    {
+        public int SntId { get; set; }
     }
 }

@@ -6,7 +6,10 @@
              x:Name="page"
              BindingContext="{x:Reference page}"
              >
-
+    <NavigationPage.TitleView>
+        <Label x:Name ="TitleLabel" Style="{StaticResource TitleLabel}" TextColor="{StaticResource NavBarTitle}" Text="Создание показания" HorizontalOptions="StartAndExpand"></Label>
+    </NavigationPage.TitleView>
+    
     <ScrollView>
     <StackLayout>
         <Frame CornerRadius="30" Padding="-1" BackgroundColor="{Binding elecFrame}" Margin="10">

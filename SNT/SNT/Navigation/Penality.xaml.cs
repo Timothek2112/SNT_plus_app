@@ -10,6 +10,7 @@ using MonkeyCache.FileStore;
 using SNT.Models;
 using SNT.Repositories;
 using SNT.Resources;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -34,7 +35,14 @@ namespace SNT.Navigation
 
             public bool CanExecute(object sender)
             {
-                return true;
+                if (Connectivity.NetworkAccess == NetworkAccess.Internet)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
 
             public void Execute(object parameter)
@@ -71,34 +79,46 @@ namespace SNT.Navigation
             }
             refreshView.Command = new Refresh();
             refreshView.CommandParameter = this;
-            SetUpPeriodPicker();
-            SetUpUchastokPicker();
+            try
+            {
+                SetUpPeriodPicker();
+                SetUpUchastokPicker();
+            }
+            catch
+            {
+                this.DisplayToastAsync("Ошибка загрузки данных, проверьте интернет соединение");
+            }
+            
             CardList.SeparatorColor = Color.Transparent;
         }
 
         private async void GetAndSetData(int year, int uchastok, bool force_reload)
         {
-            if (force_reload)
+            try
             {
-                Barrel.Current.EmptyAll();
+                string sntId = await SecureStorage.GetAsync("sntId");
+
+                List<ElectricityCardModel> cards = null;
+
+                switch (selected)
+                {
+                    case Which.penality:
+                        cards = await dataRepository.GetPenalityDebtCards(year, uchastok, int.Parse(sntId));
+                        break;
+                    case Which.membership:
+                        cards = await dataRepository.GetMembershipDebtCards(year, uchastok, int.Parse(sntId));
+                        break;
+                    case Which.target:
+                        cards = await dataRepository.GetTargetDebtCards(year, uchastok, int.Parse(sntId));
+                        break;
+                }
+
+                Device.BeginInvokeOnMainThread(() => DisplayData(cards));
             }
-
-            List<ElectricityCardModel> cards = null;
-
-            switch (selected)
+            catch
             {
-                case Which.penality:
-                    cards = await dataRepository.GetPenalityDebtCards(year, uchastok);
-                    break;
-                case Which.membership:
-                    cards = await dataRepository.GetMembershipDebtCards(year, uchastok);
-                    break;
-                case Which.target:
-                    cards = await dataRepository.GetTargetDebtCards(year, uchastok);
-                    break;
+                Device.BeginInvokeOnMainThread(() => this.DisplayToastAsync("Ошибка загрузки данных, проверьте интернет соединение"));
             }
-            
-            Device.BeginInvokeOnMainThread(() => DisplayData(cards));
         }
 
         public async void ForceGetAndSetData()
@@ -107,7 +127,6 @@ namespace SNT.Navigation
             {
                 Barrel.Current.EmptyAll();
                 Device.BeginInvokeOnMainThread(() => GetAndSetData((int)PeriodPicker.SelectedItem, (int)UchastokPicker.SelectedItem, true));
-                Debug.WriteLine("-----ПЕРЕЗАГРУЖАЮ-----");
 
             }
         }

@@ -12,11 +12,13 @@
     <Color x:Key="PrimaryButtonLight">#943BED</Color>
     <Color x:Key="SecondaryButtonLight">#8BAEFF</Color>
     <Color x:Key="BorderColorLight">Gray</Color>
+    <Color x:Key="BackgroundGray">#E9E9E9</Color>
+
 
     <Color x:Key="PrimaryDark">#6720AD</Color>
     <Color x:Key="PageBackgroundColorDark">#2E2E2E</Color>
     <Color x:Key="PageSecondaryBackgroundColorDark">#404040</Color>
-    <Color x:Key="PrimaryTextDark">#BABABA</Color>
+    <Color x:Key="PrimaryTextDark">#FFFF</Color>
     <Color x:Key="SecondaryTextDark">#BABABA</Color>
     <Color x:Key="PrimaryButtonDark">#848A98</Color>
     <Color x:Key="SecondaryButtonDark">#606060</Color>

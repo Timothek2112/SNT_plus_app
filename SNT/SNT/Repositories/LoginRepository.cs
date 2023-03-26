@@ -11,40 +11,33 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using MonkeyCache.FileStore;
 using Plugin.Connectivity;
+using SNT.Repositories;
+using Xamarin.Forms;
+using Plugin.FirebasePushNotification;
 
 namespace SNT.Repositories
 {
-    class LoginRepository
+    public class LoginRepository
     {
+        DataRepository dataRepository = new DataRepository();
         HttpClient client = new HttpClient();
         NetworkAccess currentInternetAccess;
+        CaсheRepository cache = new CaсheRepository();
         public async Task<HttpStatusCode> login(string login, string password)
         {
-            currentInternetAccess = Connectivity.NetworkAccess;
             var url = Addresses.login;
-            Barrel.ApplicationId = "barrel";
-            HttpResponseMessage response = null;
-            StringContent stringContent;
+            Dictionary<string, string> loginData = new Dictionary<string, string>
+            {
+                { "login", login },
+                { "password", password }
+            };
+            string request = JsonSerializer.Serialize(loginData);
             
-            if (currentInternetAccess != NetworkAccess.Internet  && Barrel.Current.Exists(url) && !Barrel.Current.IsExpired(url))
-            {
-                Debug.WriteLine("Интернета нет, возвращаю сохранённые данные");
-                //response = Barrel.Current.Get<HttpResponseMessage>(url);
-            }
-            else
-            {
-                Dictionary<string, string> loginData = new Dictionary<string, string>();
-                loginData.Add("login", login);
-                loginData.Add("password", password);
-                string request = JsonSerializer.Serialize(loginData);
-
-                if (!isLoginDataValid(login, password))
-                    throw new Exception("Логин или пароль содержат недопустимые символы");
-
-                stringContent = new StringContent(request, Encoding.UTF8, "application/json");
-                response = await client.PostAsync(url, stringContent);
-                Barrel.Current.Add<HttpResponseMessage>(url, response, TimeSpan.FromMinutes(1));
-            }
+            if (!isLoginDataValid(login, password))
+                throw new Exception("Логин или пароль содержат недопустимые символы");
+            
+            StringContent stringContent = new StringContent(request, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PostAsync(url, stringContent);
 
             if (response.StatusCode == HttpStatusCode.InternalServerError)
                 return HttpStatusCode.InternalServerError;
@@ -55,33 +48,47 @@ namespace SNT.Repositories
 
             string responseString = await response.Content.ReadAsStringAsync();
             LoginResponse responseDeserialized = JsonSerializer.Deserialize<LoginResponse>(responseString);
+            List<UchastkiModel> uchastki = await dataRepository.GetUsersUchastki(responseDeserialized.userid);
             
-            await SecureStorage.SetAsync("userId", responseDeserialized.userid.ToString());
-            await SecureStorage.SetAsync("token", responseDeserialized.token);
+            cache.SaveLoginInfoInSecureStorage (
+                responseDeserialized.userid,
+                responseDeserialized.token,
+                responseDeserialized.SntId,
+                uchastki
+            );
 
             return HttpStatusCode.OK;
         }
 
+        
+
         private bool isLoginDataValid(string login, string password)
         {
-            if(login != null && login != "")
-            {
-                if(password != null && password != "")
-                {
-                    return true;
-                }
-            }
+            if(login == null || login == "")
+                return false;
 
-            return false;
+            if (password == null && password == "")
+                return false;
+
+            return true;
         }
 
         public async Task<string> checkForLogin(string token)
         {
             string url = Addresses.checkLogin;
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            Debug.WriteLine(token);
             HttpResponseMessage response = await client.GetAsync(url);
-            return await response.Content.ReadAsStringAsync();
+            string responseString = await response.Content.ReadAsStringAsync();
+            SendToken();
+            return responseString;
+        }
+
+        protected async void SendToken()
+        {
+            DataRepository dataRepository = new DataRepository();
+            string userId = await SecureStorage.GetAsync("userId");
+            if (userId == null) return;
+            dataRepository.SendPushToken(CrossFirebasePushNotification.Current.Token, userId);
         }
     }
 }

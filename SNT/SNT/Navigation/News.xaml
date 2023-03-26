@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SNT.Navigation.News"
+             x:Name="main">
+    <NavigationPage.TitleView>
+        <Label Grid.Column="1" Grid.Row="1" Style="{StaticResource TitleLabel}" TextColor="{StaticResource NavBarTitle}" Text="Новости" HorizontalOptions="StartAndExpand"></Label>
+    </NavigationPage.TitleView>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Secondary" Text="Настройки"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout BackgroundColor="{DynamicResource PageBackgroundColor}">
+        
+
+        <RefreshView x:Name="refreshView" BindingContext="{x:Reference main}">
+            <ScrollView Margin="0">
+                <StackLayout x:Name="StackList">
+                    <ActivityIndicator x:Name="LoadingIndicator" IsRunning="true" />
+                    <ListView x:Name="CardList" ItemSelected="NewsSelected" RowHeight="200">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Frame Margin="0,5,0,5"  CornerRadius="30" HasShadow="True" BackgroundColor="{AppThemeBinding Light={StaticResource PageSecondaryBackgroundColorLight}, Dark={StaticResource PageSecondaryBackgroundColorDark}}" Padding="0">
+                                        <Grid RowDefinitions="1*,1*,0.05*,5*" ColumnDefinitions="500*" HeightRequest="200" WidthRequest="500">
+                                            <Label Padding="20,0,0,0" x:Name="period_lbl" Grid.Row="1" HorizontalOptions="Start" VerticalOptions="Center" Text="{Binding title}" Style="{StaticResource ListLabelStyle}"/>
+                                            <Label Padding="20,0,0,0" x:Name="period" Grid.Row="0" FontAttributes="None" HorizontalOptions="Start" VerticalOptions="Center" Text="{Binding date}" Style="{StaticResource ListLabelStyle}"/>
+                                            <Frame Grid.ColumnSpan="3" Grid.Row="2" BackgroundColor="{AppThemeBinding Light={StaticResource BorderColorLight}, Dark={StaticResource BorderColorDark}}"/>
+                                            <Label Padding="20,0,20,0" Grid.Row="3" Text="{Binding full_text}" HorizontalOptions="Start" VerticalOptions="FillAndExpand" Style="{StaticResource ListLabelStyle}"/>
+                                        </Grid>
+                                    </Frame>
+                                </ViewCell>
+
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+            </ScrollView>
+        </RefreshView>
+    </StackLayout>
+</ContentPage>
