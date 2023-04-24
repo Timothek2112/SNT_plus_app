@@ -8,12 +8,16 @@ using Xamarin.Essentials;
 using SNT.Models;
 using Plugin.FirebasePushNotification;
 using SNT.Repositories;
+using System.Diagnostics;
+using System.Net;
+using Xamarin.CommunityToolkit.Extensions;
+using System.Threading.Tasks;
 
 namespace SNT
 {
     public partial class App : Application
     {
-        
+        LoginRepository loginRepository = new LoginRepository();
         public App()
         {
             InitializeComponent();
@@ -54,6 +58,42 @@ namespace SNT
             string userId = await SecureStorage.GetAsync("userId");
             if (userId == null) return;
             dataRepository.SendPushToken(token, userId);
+        }
+
+        private async Task checkLogin()
+        {
+            string token = await SecureStorage.GetAsync("token");
+            string response = "false";
+            if (token != null)
+            {
+                Debug.WriteLine("Пытаюсь проверить логин....");
+                response = await loginRepository.checkForLogin(token);
+                if (response == "true")
+                {
+                    MainPage = new Home();
+                }
+            }
+        }
+
+
+
+        private async void proceedCode(HttpStatusCode code)
+        {
+            if (code == HttpStatusCode.OK)
+            {
+                checkLogin();
+                MainPage = new Home();
+            }
+        }
+
+        private void loginSuccess()
+        {
+            MainPage = new Home();
+        }
+
+        private void NotifyServerError()
+        {
+            Debug.WriteLine("Ошибка сервера");
         }
     }
 }

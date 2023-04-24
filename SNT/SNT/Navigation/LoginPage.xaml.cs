@@ -35,26 +35,6 @@ namespace SNT
             }
         }
 
-        private async Task checkLogin()
-        {
-            string token = await SecureStorage.GetAsync("token");
-            string response = "false";
-            if (token != null)
-            {
-                Debug.WriteLine("Пытаюсь проверить логин....");
-                response = await loginRepository.checkForLogin(token);
-                if (response == "true")
-                {
-                    await Navigation.PushAsync(new Home());
-                }
-                else
-                {
-                    this.DisplayToastAsync("Вы не авторизованы, пожалуйста, войдите в аккаунт");
-                    Debug.WriteLine("Не удалось войти");
-                }
-            }
-        }
-
         public async void OnLoginClick(object sender, EventArgs e)
         {
             HttpStatusCode code = HttpStatusCode.Unauthorized;
@@ -63,9 +43,9 @@ namespace SNT
                 code = await loginRepository.login(loginEntry.Text, passwordEntry.Text);
                 proceedCode(code);
             }
-            catch (Exception ex) { this.DisplayToastAsync("Ошибка входа " + code.ToString() ); }
+            catch (Exception ex) { Debug.WriteLine("Ошибка входа " + code.ToString()); }
         }
-        
+
         private async void proceedCode(HttpStatusCode code)
         {
             if (code == HttpStatusCode.OK)
@@ -82,16 +62,26 @@ namespace SNT
             {
                 this.DisplayToastAsync("Ошибка севера, попробуйте позже");
             }
+            else
+            {
+                this.DisplayToastAsync("Ошибка я хз");
+            }
         }
 
-        private void loginSuccess()
+        private async Task checkLogin()
         {
-            Navigation.PushAsync(new Home());
+            string token = await SecureStorage.GetAsync("token");
+            string response = "false";
+            if (token != null)
+            {
+                Debug.WriteLine("Пытаюсь проверить логин....");
+                response = await loginRepository.checkForLogin(token);
+                if (response == "true")
+                {
+                    await Navigation.PushAsync(new Home());
+                }
+            }
         }
 
-        private void NotifyServerError()
-        {
-            Debug.WriteLine("Ошибка сервера");
-        }
     }
 }

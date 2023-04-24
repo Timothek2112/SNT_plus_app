@@ -55,12 +55,11 @@
                    />
 
                 <CarouselView
-                    Margin="-17,40,-30,0"
+                    Margin="0,40,0,0"
                     Grid.ColumnSpan="2" 
                     Grid.Row="0"
                     Grid.Column="0"
                     x:Name="Debts"
-                    xct:SideMenuView.ParallaxValue="20"
                     IsBounceEnabled="true"
                     Loop="false"
                     HorizontalScrollBarVisibility="Always"
@@ -71,7 +70,6 @@
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
                             <Frame
-                                
                                 CornerRadius="30"
                                 BackgroundColor="{AppThemeBinding
                                 Dark={StaticResource PrimaryButtonDark},
@@ -89,12 +87,12 @@
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Image Scale="1"
-                                        Margin="-30"
+                                        <Image Scale="2"
+                                        Margin="0"
                                         Grid.ColumnSpan="2"
                                         Grid.RowSpan="5"
                                         Aspect="Fill"
-                                       Source="debt_background.jpg"
+                                       Source="debt_background.png"
                                        BackgroundColor="White"
                                        Opacity="0.6">
                                         </Image>
@@ -204,7 +202,7 @@
                 BackgroundColor="{AppThemeBinding
                                     Dark={StaticResource PrimaryButtonDark},
                                     Light={StaticResource PrimaryButtonLight}}">
-                    <Grid RowDefinitions="100,100">
+                    <Grid RowDefinitions="0.8*, 0.2*">
                     <ImageButton
                         x:Name="ElectricityButton"
                         Source="ElectricityIco.png"
