@@ -193,8 +193,6 @@
                     </CarouselView.ItemTemplate>
                 </CarouselView>
             
-           
-
             <Frame
                 Grid.Row="1" Grid.Column="0"
                 CornerRadius="30"
@@ -205,12 +203,12 @@
                     <Grid RowDefinitions="0.8*, 0.2*">
                     <ImageButton
                         x:Name="ElectricityButton"
-                        Source="ElectricityIco.png"
+                        Source="electricity_ico.png"
                         BackgroundColor="Transparent"
                         Clicked="ElectricityButton_Clicked"/>
                     <Label
                         Grid.Row="1"
-                        TextColor="{StaticResource PageBackgroundColorLight}"
+                        TextColor="Black"
                         Style="{StaticResource MediumLabelStyle}"
                         Text="Электроэнергия"
                         HorizontalOptions="Center"/>
@@ -226,11 +224,11 @@
                                         Light={StaticResource PrimaryButtonLight}}">
                     <Grid RowDefinitions="0.8*,0.2*" >
                     <ImageButton x:Name="WaterButton"
-                                 Source="WaterIco.png"
+                                 Source="water_ico.png"
                                  BackgroundColor="Transparent"
                                  Clicked="WaterButton_Clicked"/>
                     <Label Grid.Row="1"
-                           TextColor="White"
+                           TextColor="Black"
                            Style="{StaticResource MediumLabelStyle}"
                            Text="Вода"
                            HorizontalOptions="Center"/>
@@ -246,13 +244,13 @@
                                         Light={StaticResource PrimaryButtonLight}}">
                 <Grid RowDefinitions="0.8*,0.2*">
                     <ImageButton  
-                        Source="PenalityIco.png"
+                        Source="penality_ico.png"
                         BackgroundColor="Transparent"
                         Clicked="Button_Clicked"/>
                     <Label Grid.Row="1"
                            Style="{StaticResource MediumLabelStyle}"
                            Text="Пеня"
-                           TextColor="{StaticResource PageBackgroundColorLight}"
+                           TextColor="Black"
                            HorizontalOptions="Center"/>
                 </Grid>
             </Frame>
@@ -270,7 +268,7 @@
                             BackgroundColor="Transparent"
                             Source="MembershipIco.png"/>
                     <Label Grid.Row="1"
-                           TextColor="{StaticResource PageBackgroundColorLight}"
+                           TextColor="Black"
                            Style="{StaticResource MediumLabelStyle}"
                            Text="Членские"
                            HorizontalOptions="Center"/>
@@ -287,11 +285,12 @@
                 <Grid RowDefinitions="0.8*,0.2*">
                     <ImageButton  
                              Clicked="Button_Clicked_1"
+                            Source="target_ico.png"
                             BackgroundColor="Transparent"/>
                     <Label Grid.Row="1"
                            Style="{StaticResource MediumLabelStyle}"
                            Text="Целевые"
-                           TextColor="{StaticResource PageBackgroundColorLight}"
+                           TextColor="Black"
                            HorizontalOptions="Center"/>
                 </Grid>
             </Frame>
@@ -310,7 +309,7 @@
                     <Label Grid.Row="1"
                            Style="{StaticResource MediumLabelStyle}"
                            Text="Новости"
-                           TextColor="{StaticResource PageBackgroundColorLight}"
+                           TextColor="Black"
                            HorizontalOptions="Center"/>
                 </Grid>
             </Frame>
@@ -330,7 +329,7 @@
                     <Label Grid.Row="1"
                            Style="{StaticResource MediumLabelStyle}"
                            Text="Показания"
-                           TextColor="{StaticResource PageBackgroundColorLight}"
+                           TextColor="Black"
                            HorizontalOptions="Center"/>
                 </Grid>
             </Frame>
@@ -344,12 +343,12 @@
                                         Light={StaticResource PrimaryButtonLight}}">
                 <Grid RowDefinitions="0.8*,0.2*">
                     <ImageButton  Clicked="Button_Clicked_3"
-                                  Source="PenalityIco.png"
+                                  Source="appeal_ico.png"
                                   BackgroundColor="Transparent"/>
                     <Label Grid.Row="1" 
                            Style="{StaticResource MediumLabelStyle}"
                            Text="Обращение"
-                           TextColor="{StaticResource PageBackgroundColorLight}"
+                           TextColor="Black"
                            HorizontalOptions="Center"/>
                 </Grid>
             </Frame>

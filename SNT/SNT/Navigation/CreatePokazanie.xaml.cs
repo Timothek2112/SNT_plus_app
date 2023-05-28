@@ -152,9 +152,15 @@ namespace SNT
 
         private void Button_Clicked(object sender, EventArgs e)
         {
+            bool isParsable = float.TryParse(PokazanieEntry.Text, out float a);
+            if (isParsable && a < 0)
+            {
+                this.DisplayToastAsync("Показание не может быть меньше нуля");
+            }
+
             try
             {
-                if (float.TryParse(PokazanieEntry.Text, out float a))
+                if (isParsable)
                 {
                     if (selected == Selected.electricity)
                     {

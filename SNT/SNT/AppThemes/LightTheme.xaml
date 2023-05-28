@@ -5,11 +5,11 @@
     <Color x:Key="NavBarTitle">#FFFF</Color>
     
     <Color x:Key="PrimaryLight">#6720AD</Color>
-    <Color x:Key="PageBackgroundColorLight">WhiteSmoke</Color>
+    <Color x:Key="PageBackgroundColorLight">White</Color>
     <Color x:Key="PageSecondaryBackgroundColorLight">White</Color>
     <Color x:Key="PrimaryTextLight">Black</Color>
-    <Color x:Key="SecondaryTextLight">White</Color>
-    <Color x:Key="PrimaryButtonLight">#943BED</Color>
+    <Color x:Key="SecondaryTextLight">Black</Color>
+    <Color x:Key="PrimaryButtonLight">#E2E2E2</Color>
     <Color x:Key="SecondaryButtonLight">#8BAEFF</Color>
     <Color x:Key="BorderColorLight">Gray</Color>
     <Color x:Key="BackgroundGray">#E9E9E9</Color>

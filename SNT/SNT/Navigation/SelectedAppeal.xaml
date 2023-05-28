@@ -14,7 +14,7 @@
             <Label Text="Тема:" FontSize="30" Style="{StaticResource ListLabelStyle}" VerticalOptions="Start" HorizontalOptions="Start" Margin="35,0,0,0"/>
                 <Label x:Name="themeLabel" FontAttributes="None" Style="{StaticResource ListLabelStyle}" VerticalOptions="Start" HorizontalOptions="Start" Margin="35,0,0,0"/>
             <Label Text="Текст обращения:" FontSize="30" Style="{StaticResource ListLabelStyle}" VerticalOptions="Start" HorizontalOptions="Start" Margin="35,0,0,0"/>
-                <Label x:Name="mainTextLabel" FontAttributes="None" Style="{StaticResource ListLabelStyle}" VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="35,0,0,0"/>
+                <Label x:Name="mainTextLabel" FontAttributes="None" Style="{StaticResource ListLabelStyle}" VerticalOptions="Center" HorizontalOptions="StartAndExpand" Margin="35,0,0,0"/>
             <Label Text="Ответ" FontSize="30" Style="{StaticResource ListLabelStyle}" VerticalOptions="Start" HorizontalOptions="StartAndExpand" Margin="35,0,0,0"/>
                 <Label x:Name="answerTextLabel" FontAttributes="None"  Style="{StaticResource MediumLabelStyle}" Text="Ответа нет" Margin="35,0,0,0"/>
         </StackLayout>

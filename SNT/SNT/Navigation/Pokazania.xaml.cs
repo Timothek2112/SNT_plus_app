@@ -47,6 +47,7 @@ namespace SNT.Navigation
 		DataRepository dataRepository = new DataRepository();
         List<int> uchastk = new List<int>();
         List<int> periods = new List<int>();
+
 		public Pokazania ()
 		{
 			InitializeComponent ();
@@ -111,7 +112,7 @@ namespace SNT.Navigation
                 uchastk.Add(int.Parse(u.uchastok));
             }
             UchastokPicker.ItemsSource = uchastk;
-            UchastokPicker.SelectedIndex = 0;
+            UchastokPicker.SelectedItem = uchastk[0];
         }
 
         private void SetUpPeriodPicker()

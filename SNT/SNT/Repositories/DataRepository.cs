@@ -304,6 +304,7 @@ namespace SNT.Repositories
                 pokazaniaCards[pokazaniaCards.Count - 1].pokazanie = currentPokazanie.rawWater;
                 pokazaniaCards[pokazaniaCards.Count - 1].forPeriod = currentPokazanie.water;
                 pokazaniaCards[pokazaniaCards.Count - 1].period = i < 10 ? "0" + $"{i}.{year}" : $"{i}.{year}";
+                pokazaniaCards[pokazaniaCards.Count - 1].unit = "м³";
 
             }
             return pokazaniaCards;
@@ -322,7 +323,7 @@ namespace SNT.Repositories
                 pokazaniaCards[pokazaniaCards.Count - 1].pokazanie = currentPokazanie.rawElectricity;
                 pokazaniaCards[pokazaniaCards.Count - 1].forPeriod = currentPokazanie.electricity;
                 pokazaniaCards[pokazaniaCards.Count - 1].period = i < 10 ? "0" + $"{i}.{year}" : $"{i}.{year}";
-
+                pokazaniaCards[pokazaniaCards.Count - 1].unit = "кВт⋅ч";
             }
             return pokazaniaCards;
         }

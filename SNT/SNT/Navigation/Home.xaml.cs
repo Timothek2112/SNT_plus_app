@@ -120,7 +120,6 @@ namespace SNT
                 foreach (var item in uchastki)
                 {
                     debts.Add(await dataRepository.GetDebts(int.Parse(item.uchastok), sntId));
-                    Debug.WriteLine("Новый долг");
                 }
             }
             catch
@@ -129,7 +128,6 @@ namespace SNT
             }
             finally
             {
-                Debug.WriteLine(debts);
                 Debts.ItemsSource = debts;
                 Device.BeginInvokeOnMainThread(() => RefreshView.IsRefreshing = false);
             }

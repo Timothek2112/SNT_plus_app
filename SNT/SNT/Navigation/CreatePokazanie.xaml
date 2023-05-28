@@ -50,7 +50,16 @@
             </Picker>
 
                 <Picker x:Name="YearPicker" Margin="0,0,20,0" Grid.Row="3"  Style="{StaticResource PickerStyle}" Grid.Column="1" HorizontalTextAlignment="Center"/>
-                <Button Grid.ColumnSpan="2" Grid.RowSpan="2" Text="Создать показание" Clicked="Button_Clicked" FontSize="20" TextColor="White" Padding="0" Margin="10,30,10,20" Grid.Row="5" Style="{StaticResource FlyoutButtonStyle}"/>
+                <Button Grid.ColumnSpan="2"
+                        Grid.RowSpan="2"
+                        Text="Передать показание"
+                        Clicked="Button_Clicked" FontSize="20"
+                        TextColor="White"
+                        BackgroundColor="{StaticResource SelectedColor}"
+                        Padding="0"
+                        Margin="10,30,10,20"
+                        Grid.Row="5"
+                        Style="{StaticResource FlyoutButtonStyle}"/>
             </Grid>
         </StackLayout>
     </ScrollView>

@@ -38,8 +38,9 @@
                                         <Frame HasShadow="True" Grid.ColumnSpan="3" Grid.Row="1" BackgroundColor="{AppThemeBinding Dark={StaticResource BorderColorDark}, Light={StaticResource BorderColorLight}}"/>
                                         <Label Grid.Column="0" Grid.Row="2" Text="Показание:" HorizontalOptions="EndAndExpand" Style="{StaticResource ListLabelStyle}"/>
                                         <Label Grid.Column="0" Grid.Row="3" Text="За период:" HorizontalOptions="EndAndExpand" Style="{StaticResource ListLabelStyle}"/>
-
                                         <Label x:Name="pokazanie_lbl" Grid.Column="1" Grid.Row="2" Text="{Binding pokazanie}" Style="{StaticResource ListLabelStyle}"/>
+                                        <Label Grid.Column="1" Grid.Row="2" HorizontalTextAlignment="Start" HorizontalOptions="EndAndExpand" Text="{Binding unit}" Style="{StaticResource ListLabelStyle}"/>
+                                        <Label Grid.Column="1" Grid.Row="3" HorizontalTextAlignment="Start" HorizontalOptions="EndAndExpand" Text="{Binding unit}" Style="{StaticResource ListLabelStyle}"/>
                                         <Label x:Name="forPeriod_lbl" Grid.Column="1" Grid.Row="3" Text="{Binding forPeriod}" Style="{StaticResource ListLabelStyle}"/>
                                     </Grid>
                                 </Frame>

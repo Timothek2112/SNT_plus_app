@@ -9,5 +9,6 @@ namespace SNT.Models
         public string period { get; set; }
         public double pokazanie { get; set; }
         public double forPeriod { get; set; }
+        public string unit { get; set; }
     }
 }

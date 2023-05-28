@@ -4,7 +4,7 @@
              x:Class="SNT.Navigation.SelectedNews"
              BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark}, Light={StaticResource PageBackgroundColorLight}}">
     <NavigationPage.TitleView>
-        <Label Grid.Column="1" Grid.Row="1" Style="{StaticResource TitleLabel}" TextColor="{StaticResource NavBarTitle}" Text="Новости" HorizontalOptions="StartAndExpand"></Label>
+        <Label Grid.Column="1" Grid.Row="1" Style="{StaticResource TitleLabel}" TextColor="{StaticResource NavBarTitle}" Text="Объявления" HorizontalOptions="StartAndExpand"></Label>
     </NavigationPage.TitleView>
     
     <ContentPage.Content>

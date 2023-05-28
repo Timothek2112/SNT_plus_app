@@ -7,46 +7,33 @@
                  Shell.NavBarIsVisible="False"
                  Shell.BackgroundColor="{AppThemeBinding Dark={StaticResource PageBackgroundColorDark}, Light={StaticResource PageBackgroundColorLight}}">
 
-    <RelativeLayout>
-        <Frame x:Name="loginFrame"  BackgroundColor="#E9E9E9" CornerRadius="30" HeightRequest="45" WidthRequest="250" HasShadow="True" Padding="3"  RelativeLayout.XConstraint="{ConstraintExpression
-            Type=RelativeToParent,
-            Property=Width,
-            Factor=0.5,
-            Constant=-125
-            }"
-            RelativeLayout.YConstraint="{ConstraintExpression
-            Type=RelativeToParent,
-            Property=Height,
-            Factor=0.4,
-            Constant=-22.5}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.1*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Image Source="logo.png" Grid.Column="1" Grid.Row="1" Scale="2"/>
+        <Frame Grid.Row="3" Grid.Column="1" x:Name="loginFrame" Margin="0,25,0,25"  BackgroundColor="#E9E9E9" CornerRadius="30" HeightRequest="45" WidthRequest="250" HasShadow="True" Padding="3">
             <controls:CustomEntry x:Name="loginEntry" FontAttributes="Bold" Placeholder="Логин"  WidthRequest="200" />
         </Frame>
-        
-        <Frame x:Name="passwordFrame" Background="#E9E9E9" CornerRadius="30" WidthRequest="250" HasShadow="True" Padding="3"  RelativeLayout.XConstraint="{ConstraintExpression
-            Type=RelativeToView,
-            ElementName=loginFrame,
-            Property=X,
-            Factor=1
-            }"
-            RelativeLayout.YConstraint="{ConstraintExpression
-            Type=RelativeToView,
-            ElementName=loginFrame,
-            Property=Y,
-            Factor=1.5}">
+
+        <Frame Grid.Row="4" Grid.Column="1" Margin="0,25,0,25" x:Name="passwordFrame" Background="#E9E9E9" CornerRadius="30" WidthRequest="250" HasShadow="True" Padding="3">
             <controls:CustomEntry x:Name="passwordEntry" FontAttributes="Bold" Placeholder="Пароль" IsPassword="True" WidthRequest="200" />
         </Frame>
-        
-        <Button CornerRadius="30" BackgroundColor="#5d8bf6" FontSize="20" FontAttributes="Bold" Text="Войти" TextColor="White" WidthRequest="200" Clicked="OnLoginClick" RelativeLayout.XConstraint="{ConstraintExpression
-            Type=RelativeToView,
-            ElementName=passwordFrame,
-            Property=X,
-            Factor=1.5
-            }"
-            RelativeLayout.YConstraint="{ConstraintExpression
-            Type=RelativeToView,
-            Property=Y,
-            ElementName=passwordFrame,
-            Factor=1.5}"/>
-    </RelativeLayout>
+
+        <Button Grid.Row="5" Style="{StaticResource FlyoutButtonStyle}" BackgroundColor="{StaticResource SelectedColor}" Grid.Column="1" Margin="50,30,50,30" CornerRadius="30" FontSize="20" FontAttributes="Bold" Text="Войти" TextColor="White" WidthRequest="200" Clicked="OnLoginClick"/>
+    </Grid>
 
 </ContentPage>
